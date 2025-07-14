@@ -6,20 +6,21 @@
   <title>Resilient Ocean | ESG & Biodiversity Solutions</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="modal.css">
 </head>
 <body>
   <header>
     <h1>Resilient Ocean</h1>
     <p>Nature-Finance-Impact Advisory for a Sustainable Future</p>
-    <a href="#contact" class="button hero-button">Get a Pricing Proposal</a>
+    <button class="button hero-button" onclick="openModal('pricingModal')">Get a Pricing Proposal</button>
   </header>
 
   <nav>
     <a href="#services">Services</a>
-    <a href="#cases">Case Studies</a>
     <a href="#whitepapers">Whitepapers</a>
     <a href="#toolkits">Toolkit Demos</a>
     <a href="#contact">Contact</a>
+    <a href="#" class="cart-icon">🛒</a>
   </nav>
 
   <div class="container">
@@ -33,20 +34,7 @@
           <li>MRV Systems for ESG KPIs and Nature-related Performance</li>
           <li>Sector-specific Biodiversity & ESG Advisory (Forestry, Agroforestry, Blue Economy)</li>
         </ul>
-        <a href="#contact" class="button">Request a Consultation</a>
-      </div>
-    </section>
-
-    <section id="cases">
-      <h2>Case Studies</h2>
-      <div class="card">
-        <p>We support nature-positive strategy across sectors:</p>
-        <ul>
-          <li>Forest carbon projects integrated with biodiversity MRV</li>
-          <li>ESG and climate risk screening for renewable energy portfolios</li>
-          <li>Site-level baselines and action plans for regenerative agriculture</li>
-        </ul>
-        <a href="#contact" class="button">Request Case Portfolio</a>
+        <button class="button" onclick="openModal('consultModal')">Request a Consultation</button>
       </div>
     </section>
 
@@ -59,28 +47,28 @@
           <li><strong>CSRD + ESRS E4:</strong> Reporting dependencies and impacts on biodiversity</li>
           <li><strong>Financing Nature:</strong> Blended finance and the biodiversity credit market</li>
         </ul>
-        <a href="#contact" class="button">Get Whitepapers</a>
+        <button class="button" onclick="openModal('whitepaperModal')">Get Whitepapers</button>
       </div>
     </section>
 
     <section id="toolkits">
       <h2>Toolkit Demos</h2>
       <div class="card">
-        <p>Coming soon: Interactive tools and templates to help corporates and investors:</p>
+        <p>Access our interactive tools and templates to help corporates and investors:</p>
         <ul>
           <li>Materiality Scoping Templates aligned with TNFD LEAP</li>
           <li>Biodiversity Risk Dashboards</li>
           <li>MRV-ready data collection templates and sectoral KPIs</li>
         </ul>
-        <a href="#contact" class="button">Request Early Access</a>
+        <button class="button" onclick="openModal('toolkitModal')">Request Access</button>
       </div>
     </section>
 
     <section id="contact">
       <h2>Contact Us</h2>
       <div class="card">
-        <p>We’d love to hear from you. Reach out for collaborations, advisory, or to schedule a briefing session.</p>
-        <p>Email: <a href="mailto:info@resilientocean.com">info@resilientocean.com</a></p>
+        <p>Reach out for collaborations, advisory, or to schedule a briefing session.</p>
+        <p><a href="#" onclick="openModal('contactModal')">info@resilientocean.com</a></p>
       </div>
     </section>
   </div>
@@ -88,5 +76,12 @@
   <footer>
     &copy; 2025 Resilient Ocean — Nature. Finance. Impact.
   </footer>
+
+  <!-- Modal Forms will be inserted here -->
+  <div id="modalContainer"></div>
+
+  <!-- JavaScript -->
+  <script src="modal.js"></script>
+  <script src="chatbot.js"></script>
 </body>
 </html>
