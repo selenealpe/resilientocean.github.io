@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Account - Resilient Ocean</title>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f5f2ed;
+      color: #3a593a;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #3a593a;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .login-form {
+      max-width: 400px;
+      margin: 0 auto 3rem auto;
+    }
+
+    .login-form h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .login-form label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+
+    .login-form input {
+      width: 100%;
+      padding: 0.6rem;
+      margin-bottom: 1.5rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .login-form button {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: #3a593a;
+      color: white;
+      border: none;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .login-form button:hover {
+      background-color: #2e472e;
+    }
+
+    .section-title {
+      font-size: 1.4rem;
+      border-bottom: 2px solid #3a593a;
+      margin-top: 2rem;
+      padding-bottom: 0.5rem;
+    }
+
+    .service-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .service-list li {
+      background-color: #f1f1ec;
+      margin: 0.5rem 0;
+      padding: 0.75rem 1rem;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>My Account</h1>
+  </header>
+
+  <div class="container">
+    <!-- Login / Signup Form -->
+    <div class="login-form">
+      <h2>Create or Access Your Member Account</h2>
+      <form action="https://formsubmit.co/info@resilientocean.com" method="POST">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_next" value="https://www.resilientocean.com/account.html">
+        
+        <label for="email">Email Address *</label>
+        <input type="email" name="email" id="email" required>
+
+        <label for="password">Password *</label>
+        <input type="password" name="password" id="password" required>
+
+        <button type="submit">Access My Account</button>
+      </form>
+    </div>
+
+    <!-- Placeholder for User’s Services -->
+    <div>
+      <div class="section-title">1. Advisory Services</div>
+      <ul class="service-list">
+        <li>Biodiversity Risk Analytics – 2024</li>
+        <li>MRV for ESG KPIs – 2024</li>
+      </ul>
+
+      <div class="section-title">2. Whitepapers</div>
+      <ul class="service-list">
+        <li>TNFD and SBTN Primer</li>
+        <li>Financing Nature – Blended Finance</li>
+      </ul>
+
+      <div class="section-title">3. Toolkits</div>
+      <ul class="service-list">
+        <li>Biodiversity Risk Dashboard – Access valid until Dec 2024</li>
+        <li>MRV-ready Data Collection Templates – Access valid until Dec 2024</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>
