@@ -16,12 +16,20 @@
       background-color: #3a593a;
       color: white;
       padding: 1rem;
-      text-align: center;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
     h1 {
       margin: 0;
       font-size: 2rem;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 1rem;
     }
 
     .container {
@@ -31,45 +39,6 @@
       background: white;
       border-radius: 10px;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .login-form {
-      max-width: 400px;
-      margin: 0 auto 3rem auto;
-    }
-
-    .login-form h2 {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-    }
-
-    .login-form label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: bold;
-    }
-
-    .login-form input {
-      width: 100%;
-      padding: 0.6rem;
-      margin-bottom: 1.5rem;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-
-    .login-form button {
-      width: 100%;
-      padding: 0.75rem;
-      background-color: #3a593a;
-      color: white;
-      border: none;
-      font-size: 1rem;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    .login-form button:hover {
-      background-color: #2e472e;
     }
 
     .section-title {
@@ -94,47 +63,43 @@
 </head>
 <body>
   <header>
-    <h1>My Account</h1>
+    <h1>Resilient Ocean</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="account.html" id="accountTab" style="display: none;">My Account</a>
+    </nav>
   </header>
 
   <div class="container">
-    <!-- Login / Signup Form -->
-    <div class="login-form">
-      <h2>Create or Access Your Member Account</h2>
-      <form action="https://formsubmit.co/info@resilientocean.com" method="POST">
-        <input type="hidden" name="_captcha" value="false">
-        <input type="hidden" name="_next" value="https://www.resilientocean.com/account.html">
-        
-        <label for="email">Email Address *</label>
-        <input type="email" name="email" id="email" required>
+    <h2>Welcome to Your Account</h2>
+    <p>This page shows your purchases and services.</p>
 
-        <label for="password">Password *</label>
-        <input type="password" name="password" id="password" required>
+    <div class="section-title">Whitepapers</div>
+    <ul class="service-list" id="whitepapersList">
+      <li>CSRD + ESRS E4 Report</li>
+    </ul>
 
-        <button type="submit">Access My Account</button>
-      </form>
-    </div>
+    <div class="section-title">Service(s) Requested</div>
+    <ul class="service-list" id="servicesList">
+      <li>Biodiversity Risk Analytics</li>
+    </ul>
 
-    <!-- Placeholder for User’s Services -->
-    <div>
-      <div class="section-title">1. Advisory Services</div>
-      <ul class="service-list">
-        <li>Biodiversity Risk Analytics – 2024</li>
-        <li>MRV for ESG KPIs – 2024</li>
-      </ul>
-
-      <div class="section-title">2. Whitepapers</div>
-      <ul class="service-list">
-        <li>TNFD and SBTN Primer</li>
-        <li>Financing Nature – Blended Finance</li>
-      </ul>
-
-      <div class="section-title">3. Toolkits</div>
-      <ul class="service-list">
-        <li>Biodiversity Risk Dashboard – Access valid until Dec 2024</li>
-        <li>MRV-ready Data Collection Templates – Access valid until Dec 2024</li>
-      </ul>
-    </div>
+    <div class="section-title">Toolkit Demo</div>
+    <ul class="service-list" id="toolkitsList">
+      <li>MRV-ready Data Collection Templates</li>
+    </ul>
   </div>
+
+  <script>
+    // Simulated session state
+    const userSession = JSON.parse(localStorage.getItem('resilientUser'));
+    const accountTab = document.getElementById('accountTab');
+
+    // Show My Account if user is authenticated
+    if (userSession && userSession.toolkitAccess) {
+      accountTab.style.display = 'inline';
+    }
+  </script>
 </body>
 </html>
+
