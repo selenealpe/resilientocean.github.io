@@ -1,182 +1,190 @@
-<!-- Pricing Proposal Modal -->
-<div id="pricingModal" class="modal">
-  <div class="modal-content">
-    <span class="close" onclick="closeModal('pricingModal')">&times;</span>
-    <h3>Get a Pricing Proposal</h3>
-    <form action="https://formsubmit.co/info@resilientocean.com" method="POST">
-      <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_next" value="https://www.resilientocean.com/thanks.html">
+<div id="modalContainer">
+  <!-- Pricing Proposal Modal -->
+  <div class="modal" id="pricingModal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('pricingModal')">&times;</span>
+      <h2>Request a Pricing Proposal</h2>
+      <form action="https://formsubmit.co/info@resilientocean.com" method="POST">
+        <input type="hidden" name="_next" value="https://www.resilientocean.com/thanks.html">
+        <input type="hidden" name="_captcha" value="false">
+        <label>Email Address <span class="required">*</span></label>
+        <input type="email" name="email" required>
 
-      <label>Name <span class="required">*</span></label>
-      <input type="text" name="name" required>
+        <label>Name <span class="required">*</span></label>
+        <input type="text" name="name" required>
 
-      <label>Institution Type <span class="required">*</span></label>
-      <select name="institutionType" required>
-        <option value="">-- Select --</option>
-        <option>UN Entity</option>
-        <option>Private Company</option>
-        <option>NGO</option>
-        <option>Public Institution</option>
-      </select>
+        <label>Institution Type <span class="required">*</span></label>
+        <select name="institution_type" required>
+          <option value="">--Select--</option>
+          <option>UN Entity</option>
+          <option>Private company</option>
+          <option>NGO</option>
+          <option>Public Institution</option>
+        </select>
 
-      <label>Institution Name <span class="required">*</span></label>
-      <input type="text" name="institutionName" required>
+        <label>Institution Name <span class="required">*</span></label>
+        <input type="text" name="institution_name" required>
 
-      <label>Service Interested In <span class="required">*</span></label>
-      <select name="service" required>
-        <option value="">-- Select --</option>
-        <option>Biodiversity Risk Analytics</option>
-        <option>Tool/Methodology Development</option>
-        <option>ESG & Environmental Assessments</option>
-        <option>Investment & Carbon Advisory</option>
-        <option>MRV Systems for ESG & Nature KPIs</option>
-        <option>Site-specific Planning</option>
-      </select>
+        <label>Service of Interest <span class="required">*</span></label>
+        <select name="service" required>
+          <option>1. Biodiversity Risk Analytics</option>
+          <option>2. Tool/Methodology Development</option>
+          <option>3. ESG & Environmental Assessments</option>
+          <option>4. Investment & Carbon Advisory</option>
+          <option>5. MRV Systems for ESG & Nature KPIs</option>
+          <option>6. Site-specific Planning</option>
+        </select>
 
-      <p class="help-text">*This field must be completed in order to submit a request.</p>
-      <button type="submit">Send</button>
-    </form>
+        <button type="submit">Send</button>
+      </form>
+    </div>
   </div>
-</div>
 
-<!-- Consultation Modal -->
-<div id="consultModal" class="modal">
-  <div class="modal-content">
-    <span class="close" onclick="closeModal('consultModal')">&times;</span>
-    <h3>Request a Consultation</h3>
-    <form action="https://formsubmit.co/info@resilientocean.com" method="POST">
-      <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_next" value="https://www.resilientocean.com/thanks.html">
+  <!-- Consultation Modal -->
+  <div class="modal" id="consultModal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('consultModal')">&times;</span>
+      <h2>Request a Consultation</h2>
+      <form action="https://formsubmit.co/info@resilientocean.com" method="POST">
+        <input type="hidden" name="_next" value="https://www.resilientocean.com/thanks.html">
+        <input type="hidden" name="_captcha" value="false">
+        <label>Email Address <span class="required">*</span></label>
+        <input type="email" name="email" required>
 
-      <label>Name <span class="required">*</span></label>
-      <input type="text" name="name" required>
+        <label>Name <span class="required">*</span></label>
+        <input type="text" name="name" required>
 
-      <label>Institution Type <span class="required">*</span></label>
-      <select name="institutionType" required>
-        <option value="">-- Select --</option>
-        <option>UN Entity</option>
-        <option>Private Company</option>
-        <option>NGO</option>
-        <option>Public Institution</option>
-      </select>
+        <label>Institution Type <span class="required">*</span></label>
+        <select name="institution_type" required>
+          <option value="">--Select--</option>
+          <option>UN Entity</option>
+          <option>Private company</option>
+          <option>NGO</option>
+          <option>Public Institution</option>
+        </select>
 
-      <label>Institution Name <span class="required">*</span></label>
-      <input type="text" name="institutionName" required>
+        <label>Institution Name <span class="required">*</span></label>
+        <input type="text" name="institution_name" required>
 
-      <label>Service Interested In <span class="required">*</span></label>
-      <select name="service" required>
-        <option value="">-- Select --</option>
-        <option>Biodiversity Risk Analytics</option>
-        <option>Tool/Methodology Development</option>
-        <option>ESG & Environmental Assessments</option>
-        <option>Investment & Carbon Advisory</option>
-        <option>MRV Systems for ESG & Nature KPIs</option>
-        <option>Site-specific Planning</option>
-      </select>
+        <label>Service of Interest <span class="required">*</span></label>
+        <select name="service" required>
+          <option>1. Biodiversity Risk Analytics</option>
+          <option>2. Tool/Methodology Development</option>
+          <option>3. ESG & Environmental Assessments</option>
+          <option>4. Investment & Carbon Advisory</option>
+          <option>5. MRV Systems for ESG & Nature KPIs</option>
+          <option>6. Site-specific Planning</option>
+        </select>
 
-      <p class="help-text">*This field must be completed in order to submit a request.</p>
-      <button type="submit">Send</button>
-    </form>
+        <button type="submit">Send</button>
+      </form>
+    </div>
   </div>
-</div>
 
-<!-- Whitepaper Modal -->
-<div id="whitepaperModal" class="modal">
-  <div class="modal-content">
-    <span class="close" onclick="closeModal('whitepaperModal')">&times;</span>
-    <h3>Request a Whitepaper</h3>
-    <form action="https://formsubmit.co/info@resilientocean.com" method="POST">
-      <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_next" value="https://www.resilientocean.com/thanks.html">
+  <!-- Whitepaper Modal -->
+  <div class="modal" id="whitepaperModal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('whitepaperModal')">&times;</span>
+      <h2>Request Whitepaper</h2>
+      <form action="https://formsubmit.co/info@resilientocean.com" method="POST">
+        <input type="hidden" name="_next" value="https://www.resilientocean.com/thanks.html">
+        <input type="hidden" name="_captcha" value="false">
 
-      <label>Name <span class="required">*</span></label>
-      <input type="text" name="name" required>
+        <label>Email Address <span class="required">*</span></label>
+        <input type="email" name="email" required>
 
-      <label>Institution Type <span class="required">*</span></label>
-      <select name="institutionType" required>
-        <option value="">-- Select --</option>
-        <option>UN Entity</option>
-        <option>Private Company</option>
-        <option>NGO</option>
-        <option>Public Institution</option>
-      </select>
+        <label>Name <span class="required">*</span></label>
+        <input type="text" name="name" required>
 
-      <label>Institution Name <span class="required">*</span></label>
-      <input type="text" name="institutionName" required>
+        <label>Institution Type <span class="required">*</span></label>
+        <select name="institution_type" required>
+          <option value="">--Select--</option>
+          <option>UN Entity</option>
+          <option>Private company</option>
+          <option>NGO</option>
+          <option>Public Institution</option>
+        </select>
 
-      <label>Whitepaper Requested <span class="required">*</span></label>
-      <select name="whitepaper" required>
-        <option value="">-- Select --</option>
-        <option>Integrating Nature into Risk Registers: TNFD and SBTN primer – €189.95</option>
-        <option>CSRD + ESRS E4 – €295.95</option>
-        <option>Financing Nature: Blended Finance – €169.95</option>
-      </select>
+        <label>Institution Name <span class="required">*</span></label>
+        <input type="text" name="institution_name" required>
 
-      <p class="help-text">*You will receive a confirmation email with purchase instructions.</p>
-      <button type="submit">Add to Cart</button>
-    </form>
+        <label>Choose Report <span class="required">*</span></label>
+        <select name="whitepaper" required>
+          <option>Integrating Nature into Risk Registers – 89.95 EUR</option>
+          <option>CSRD + ESRS E4 – 295.95 EUR</option>
+          <option>Financing Nature – 69.95 EUR</option>
+        </select>
+
+        <button type="submit">Add to Cart</button>
+      </form>
+    </div>
   </div>
-</div>
 
-<!-- Toolkit Modal -->
-<div id="toolkitModal" class="modal">
-  <div class="modal-content">
-    <span class="close" onclick="closeModal('toolkitModal')">&times;</span>
-    <h3>Access Toolkits</h3>
-    <form action="https://formsubmit.co/info@resilientocean.com" method="POST">
-      <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_next" value="https://www.resilientocean.com/thanks.html">
+  <!-- Toolkit Access Modal -->
+  <div class="modal" id="toolkitModal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('toolkitModal')">&times;</span>
+      <h2>Request Toolkit Access</h2>
+      <form id="toolkitForm" action="https://formsubmit.co/info@resilientocean.com" method="POST">
+        <input type="hidden" name="_next" value="https://www.resilientocean.com/thanks.html">
+        <input type="hidden" name="_captcha" value="false">
 
-      <label>Email Address <span class="required">*</span></label>
-      <input type="text" name="email" required>
+        <label>Email Address <span class="required">*</span></label>
+        <input type="email" id="toolkitEmail" name="email" required>
 
-      <label>Select Toolkit <span class="required">*</span></label>
-      <select name="toolkit" required>
-        <option value="">-- Select --</option>
-        <option>Materiality Scoping Templates – €399 (3 months)</option>
-        <option>Biodiversity Risk Dashboards – €299 (3 months)</option>
-        <option>MRV-ready Data Templates – €599 (3 months)</option>
-      </select>
+        <label>Create a Password <span class="required">*</span></label>
+        <input type="password" id="toolkitPassword" name="password" required>
 
-      <label>Would you like expert guidance? (+ €200/hr)</label>
-      <select name="guidance">
-        <option>No</option>
-        <option>Yes</option>
-      </select>
+        <label>Toolkit Selection <span class="required">*</span></label>
+        <select name="toolkit" required>
+          <option>Materiality Scoping Templates – 399.00 EUR</option>
+          <option>Biodiversity Risk Dashboards – 299.00 EUR</option>
+          <option>MRV-ready Templates – 599.00 EUR (3-months)</option>
+        </select>
 
-      <button type="submit">Add to Cart</button>
-    </form>
+        <label>Guidance Add-on (Optional)</label>
+        <select name="guidance">
+          <option>No add-on</option>
+          <option>Yes – Personalized Guidance (+200 EUR/hour)</option>
+        </select>
+
+        <button type="submit">Add to Cart</button>
+      </form>
+    </div>
   </div>
-</div>
 
-<!-- Contact Modal -->
-<div id="contactModal" class="modal">
-  <div class="modal-content">
-    <span class="close" onclick="closeModal('contactModal')">&times;</span>
-    <h3>Contact Resilient Ocean</h3>
-    <form action="https://formsubmit.co/info@resilientocean.com" method="POST">
-      <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_next" value="https://www.resilientocean.com/thanks.html">
+  <!-- Contact Modal -->
+  <div class="modal" id="contactModal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('contactModal')">&times;</span>
+      <h2>Contact Us</h2>
+      <form action="https://formsubmit.co/info@resilientocean.com" method="POST">
+        <input type="hidden" name="_next" value="https://www.resilientocean.com/thanks.html">
+        <input type="hidden" name="_captcha" value="false">
 
-      <label>Name <span class="required">*</span></label>
-      <input type="text" name="name" required>
+        <label>Email Address <span class="required">*</span></label>
+        <input type="email" name="email" required>
 
-      <label>Institution Type <span class="required">*</span></label>
-      <select name="institutionType" required>
-        <option value="">-- Select --</option>
-        <option>UN Entity</option>
-        <option>Private Company</option>
-        <option>NGO</option>
-        <option>Public Institution</option>
-      </select>
+        <label>Name <span class="required">*</span></label>
+        <input type="text" name="name" required>
 
-      <label>Institution Name <span class="required">*</span></label>
-      <input type="text" name="institutionName" required>
+        <label>Institution Type <span class="required">*</span></label>
+        <select name="institution_type" required>
+          <option value="">--Select--</option>
+          <option>UN Entity</option>
+          <option>Private company</option>
+          <option>NGO</option>
+          <option>Public Institution</option>
+        </select>
 
-      <label>Your Inquiry <span class="required">*</span></label>
-      <textarea name="message" rows="5" required></textarea>
+        <label>Institution Name <span class="required">*</span></label>
+        <input type="text" name="institution_name" required>
 
-      <button type="submit">Send</button>
-    </form>
+        <label>Your Inquiry <span class="required">*</span></label>
+        <textarea name="message" rows="5" required></textarea>
+
+        <button type="submit">Send</button>
+      </form>
+    </div>
   </div>
 </div>
