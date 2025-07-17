@@ -59,6 +59,16 @@
       padding: 0.75rem 1rem;
       border-radius: 5px;
     }
+
+    #logoutBtn {
+      margin-top: 2rem;
+      background-color: #3a593a;
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 5px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -71,35 +81,21 @@
   </header>
 
   <div class="container">
-    <h2>Welcome to Your Account</h2>
-    <p>This page shows your purchases and services.</p>
+    <h2 id="welcomeText">Welcome to Your Account</h2>
+    <p>This page shows your personal purchases and services.</p>
 
     <div class="section-title">Whitepapers</div>
-    <ul class="service-list" id="whitepapersList">
-      <li>CSRD + ESRS E4 Report</li>
-    </ul>
+    <ul class="service-list" id="whitepapersList"></ul>
 
     <div class="section-title">Service(s) Requested</div>
-    <ul class="service-list" id="servicesList">
-      <li>Biodiversity Risk Analytics</li>
-    </ul>
+    <ul class="service-list" id="servicesList"></ul>
 
     <div class="section-title">Toolkit Demo</div>
-    <ul class="service-list" id="toolkitsList">
-      <li>MRV-ready Data Collection Templates</li>
-    </ul>
+    <ul class="service-list" id="toolkitsList"></ul>
+
+    <button id="logoutBtn" onclick="logout()">Log Out</button>
   </div>
 
-  <script>
-    // Simulated session state
-    const userSession = JSON.parse(localStorage.getItem('resilientUser'));
-    const accountTab = document.getElementById('accountTab');
-
-    // Show My Account if user is authenticated
-    if (userSession && userSession.toolkitAccess) {
-      accountTab.style.display = 'inline';
-    }
-  </script>
+  <script src="auth.js"></script>
 </body>
 </html>
-
