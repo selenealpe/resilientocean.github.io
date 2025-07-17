@@ -15,20 +15,21 @@ body {
 
 /* Header */
 header {
-  background-color: #e3e1dc;
+  background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80') no-repeat center center;
+  background-size: cover;
   text-align: center;
-  padding: 3rem 1rem;
+  padding: 4rem 1rem;
+  color: #fff;
 }
 
 header h1 {
   font-size: 2.8rem;
-  color: #3a593a;
   margin-bottom: 0.5rem;
 }
 
 header p {
   font-size: 1.25rem;
-  color: #556e55;
+  color: #f0f0f0;
 }
 
 .hero-button {
@@ -51,8 +52,10 @@ nav {
   background-color: #ffffff;
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 2rem;
-  padding: 1rem 0;
+  padding: 1rem 2rem;
+  flex-wrap: wrap;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
   position: sticky;
   top: 0;
@@ -74,7 +77,11 @@ nav a:hover {
 nav a.cart-icon {
   font-size: 1.25rem;
   margin-left: auto;
-  margin-right: 1rem;
+}
+
+nav a#accountLink {
+  margin-left: auto;
+  font-weight: 700;
 }
 
 /* Container */
@@ -93,6 +100,7 @@ section h2 {
   font-size: 2rem;
   color: #3a593a;
   margin-bottom: 1.5rem;
+  padding-left: 1rem;
 }
 
 /* Cards */
@@ -143,12 +151,9 @@ footer {
 /* Responsive layout */
 @media (max-width: 768px) {
   nav {
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
     gap: 1rem;
-  }
-
-  nav a.cart-icon {
-    margin-left: 0;
   }
 
   header h1 {
@@ -157,5 +162,10 @@ footer {
 
   .container {
     padding: 0 1rem;
+  }
+
+  section h2 {
+    padding-left: 0;
+    text-align: center;
   }
 }
