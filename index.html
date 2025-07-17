@@ -21,6 +21,7 @@
     <a href="#toolkits">Toolkit Demos</a>
     <a href="#contact">Contact</a>
     <a href="#" class="cart-icon">🛒</a>
+    <a href="account.html" id="myAccountTab" style="display: none;">My Account</a>
   </nav>
 
   <div class="container">
@@ -32,7 +33,7 @@
           <li>Corporate Toolkits & Training on TNFD, CSRD, SBTN</li>
           <li>Carbon Markets, GCF Finance, and Sustainable Land-Use Planning</li>
           <li>MRV Systems for ESG KPIs and Nature-related Performance</li>
-          <li>Sector-specific Biodiversity & ESG Advisory (Forestry, Agroforestry, Blue Economy)</li>
+          <li>Sector-specific Biodiversity & ESG Advisory (Blue Economy)</li>
         </ul>
         <button class="button" onclick="openModal('consultModal')">Request a Consultation</button>
       </div>
@@ -83,5 +84,12 @@
   <!-- JavaScript -->
   <script src="modal.js"></script>
   <script src="chatbot.js"></script>
+  <script>
+    // Show "My Account" if a user is logged in
+    const currentUser = localStorage.getItem("currentUser") || localStorage.getItem("rememberMeUser");
+    if (currentUser) {
+      document.getElementById("myAccountTab").style.display = "inline";
+    }
+  </script>
 </body>
 </html>
