@@ -15,16 +15,10 @@ function openModal(modalId) {
   if (modal) {
     modal.style.display = "block";
     document.body.style.overflow = "hidden";
-
-    // Attach listener dynamically if modal is a form
-    const form = modal.querySelector("form");
-    if (form && modalId === "toolkitModal") {
-      form.addEventListener("submit", handleToolkitSubmission);
-    }
   }
 }
 
-// Close modal
+// Close modal by ID
 function closeModal(modalId) {
   const modal = document.getElementById(modalId);
   if (modal) {
@@ -33,7 +27,7 @@ function closeModal(modalId) {
   }
 }
 
-// Close modal when clicking outside content
+// Close modal if user clicks outside modal content
 window.onclick = function (event) {
   const modals = document.querySelectorAll(".modal");
   modals.forEach(modal => {
@@ -44,7 +38,41 @@ window.onclick = function (event) {
   });
 };
 
-// Show My Account tab dynamically
+// Handle Toolkit Form Submission
+function handleToolkitSubmission(event) {
+  event.preventDefault();
+
+  const email = document.querySelector('#toolkitEmail')?.value;
+  const password = document.querySelector('#toolkitPassword')?.value;
+  const firstName = document.querySelector('#toolkitFirstName')?.value;
+  const institutionName = document.querySelector('#toolkitInstitutionName')?.value;
+  const institutionType = document.querySelector('#toolkitInstitutionType')?.value;
+  const toolkitSelected = document.querySelector('select[name="toolkit"]')?.value;
+
+  if (email && password && firstName && institutionName && institutionType && toolkitSelected) {
+    // Save user session
+    const userData = {
+      email,
+      password,
+      firstName,
+      institutionName,
+      institutionType,
+      toolkitAccess: [toolkitSelected],
+      loggedIn: true
+    };
+
+    localStorage.setItem('resilientUser', JSON.stringify(userData));
+
+    alert("You have now created a personal account at Resilient Ocean. You will be able to access the toolkits via your personal account tab at the top right of the home page.");
+    showAccountTab();
+    closeModal('toolkitModal');
+    window.location.href = "thanks.html";
+  } else {
+    alert("Please fill out all required fields.");
+  }
+}
+
+// Dynamically insert “My Account” tab
 function showAccountTab() {
   const nav = document.querySelector("nav");
   if (!document.getElementById("accountLink")) {
@@ -56,53 +84,20 @@ function showAccountTab() {
   }
 }
 
-// Restore tab if session exists
+// Restore tab if user is already logged in
 function restoreAccountTab() {
-  if (localStorage.getItem("resilientUserLoggedIn") === "true" ||
-      localStorage.getItem("currentUser") ||
-      localStorage.getItem("rememberMeUser")) {
-    showAccountTab();
+  const session = localStorage.getItem("resilientUser");
+  if (session) {
+    const user = JSON.parse(session);
+    if (user.loggedIn) {
+      showAccountTab();
+    }
   }
 }
 
-// Handle toolkit modal form
-function handleToolkitSubmission(event) {
-  event.preventDefault();
-
-  const form = event.target;
-  const email = form.querySelector("input[name='email']").value;
-  const password = form.querySelector("input[name='password']").value;
-  const firstName = form.querySelector("input[name='firstName']").value;
-  const institution = form.querySelector("input[name='institution']").value;
-  const institutionType = form.querySelector("select[name='institutionType']").value;
-
-  if (!email || !password || !firstName || !institution || !institutionType) {
-    alert("All fields are required.");
-    return;
+// Attach form submission for Toolkit access
+document.addEventListener("submit", function (e) {
+  if (e.target && e.target.id === "toolkitForm") {
+    handleToolkitSubmission(e);
   }
-
-  // Save user object to localStorage
-  const user = {
-    email,
-    password,
-    firstName,
-    institution,
-    institutionType,
-    services: [],
-    whitepapers: [],
-    toolkits: ["Toolkit Access Requested"]
-  };
-
-  localStorage.setItem(email, JSON.stringify(user));
-  localStorage.setItem("currentUser", email);
-  localStorage.setItem("resilientUserLoggedIn", "true");
-
-  // Simulate email confirmation
-  const emailMessage = `mailto:${email}?subject=Welcome to Resilient Ocean&body=You're all set!%0D%0A%0D%0AHere are your login credentials:%0D%0AEmail: ${email}%0D%0APassword: ${password}%0D%0A%0D%0AVisit https://www.resilientocean.com/account.html to access your profile.%0D%0A%0D%0AQuestions? Contact info@resilientocean.com`;
-  window.open(emailMessage, "_blank");
-
-  alert("You have now created a personal account at Resilient Ocean. You will be able to access the toolkits via your personal account tab at the top right of the home page.");
-
-  showAccountTab();
-  closeModal("toolkitModal");
-}
+});
