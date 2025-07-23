@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Panel - Resilient Ocean</title>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f9f9f4;
+      margin: 0;
+      padding: 2rem;
+      color: #3a593a;
+    }
+
+    h1 {
+      color: #2e4232;
+    }
+
+    .login-section {
+      max-width: 400px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 2rem;
+    }
+
+    .admin-table th, .admin-table td {
+      border: 1px solid #ddd;
+      padding: 0.75rem;
+      text-align: left;
+    }
+
+    .admin-table th {
+      background-color: #e2e6dc;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    input[type="password"] {
+      width: 100%;
+      padding: 0.5rem;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    button {
+      background-color: #3a593a;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-section" id="loginSection">
+    <h2>Admin Login</h2>
+    <input type="password" id="adminPassword" placeholder="Enter admin password" />
+    <button onclick="verifyAdmin()">Login</button>
+    <p id="errorMsg" style="color:red;"></p>
+  </div>
+
+  <div id="adminPanel" class="hidden">
+    <h1>Registered Members</h1>
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Institution</th>
+          <th>Institution Type</th>
+          <th>Services</th>
+        </tr>
+      </thead>
+      <tbody id="userTableBody">
+        <!-- User data will be populated here -->
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    const adminPassword = ":Rmuu53J4XPdB@HMN!_";
+
+    function verifyAdmin() {
+      const input = document.getElementById("adminPassword").value;
+      const error = document.getElementById("errorMsg");
+
+      if (input === adminPassword) {
+        document.getElementById("loginSection").style.display = "none";
+        document.getElementById("adminPanel").classList.remove("hidden");
+        loadUsers();
+      } else {
+        error.textContent = "Incorrect password.";
+      }
+    }
+
+    function loadUsers() {
+      const users = JSON.parse(localStorage.getItem("resilientUserRegistry")) || [];
+      const tbody = document.getElementById("userTableBody");
+      tbody.innerHTML = "";
+
+      users.forEach(user => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${user.name || "-"}</td>
+          <td>${user.email}</td>
+          <td>${user.institution || "-"}</td>
+          <td>${user.institutionType || "-"}</td>
+          <td>${(user.services || []).join(", ")}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+  </script>
+</body>
+</html>
