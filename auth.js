@@ -1,89 +1,111 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const signupForm = document.getElementById("signupForm");
-  const loginForm = document.getElementById("loginForm");
-  const welcomeText = document.getElementById("welcomeText");
+document.addEventListener("DOMContentLoaded", () => {
+  restoreAccountTab();
+});
 
-  const servicesList = document.getElementById("servicesList");
-  const whitepapersList = document.getElementById("whitepapersList");
-  const toolkitsList = document.getElementById("toolkitsList");
+// Global key names
+const USER_KEY = "resilientUser";
+const REGISTRY_KEY = "resilientUserRegistry";
 
-  // Signup Logic
-  if (signupForm) {
-    signupForm.addEventListener("submit", function (e) {
-      e.preventDefault();
-      const firstName = document.getElementById("firstName").value;
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
+// Unify login logic
+function loginUser(user) {
+  localStorage.setItem(USER_KEY, JSON.stringify(user));
+  localStorage.setItem("resilientUserLoggedIn", "true");
+  if (user.email === "info@resilientocean.com") {
+    localStorage.setItem("resilientUserIsAdmin", "true");
+  }
+  showAccountTab();
+}
 
-      const user = {
-        firstName,
-        email,
-        password,
-        services: [],
-        whitepapers: [],
-        toolkits: []
-      };
+// Unified function for "My Account" tab
+function showAccountTab() {
+  const nav = document.querySelector("nav");
+  if (!document.getElementById("accountLink")) {
+    const accountLink = document.createElement("a");
+    accountLink.href = "account.html";
+    accountLink.textContent = "My Account";
+    accountLink.id = "accountLink";
+    nav.appendChild(accountLink);
+  }
+}
 
-      localStorage.setItem(email, JSON.stringify(user));
-      localStorage.setItem("currentUser", email);
-      window.location.href = "account.html";
-    });
+// Restore on page load
+function restoreAccountTab() {
+  const userData = JSON.parse(localStorage.getItem(USER_KEY));
+  if (userData && userData.email) {
+    showAccountTab();
+  }
+}
+
+// Handle toolkit form submission (auto-login + registry)
+function handleToolkitSubmission(event) {
+  event.preventDefault();
+
+  const email = document.querySelector("#toolkitEmail")?.value.trim();
+  const password = document.querySelector("#toolkitPassword")?.value.trim();
+  const name = document.querySelector("#toolkitName")?.value.trim();
+  const institution = document.querySelector("#toolkitInstitution")?.value.trim();
+  const institutionType = document.querySelector("#toolkitInstitutionType")?.value;
+  const toolkit = document.querySelector("[name='toolkit']").value;
+  const guidance = document.querySelector("[name='guidance']").value;
+
+  if (!email || !password || !name || !institution || !institutionType) {
+    alert("Please fill out all required fields.");
+    return;
   }
 
-  // Login Logic
-  if (loginForm) {
-    loginForm.addEventListener("submit", function (e) {
-      e.preventDefault();
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      const remember = document.getElementById("rememberMe")?.checked;
-
-      const user = JSON.parse(localStorage.getItem(email));
-      if (user && user.password === password) {
-        localStorage.setItem("currentUser", email);
-        if (remember) localStorage.setItem("rememberMe", "true");
-        window.location.href = "account.html";
-      } else {
-        alert("Invalid credentials. Please try again.");
-      }
-    });
-  }
-
-  // Account Page Loader
-  if (welcomeText) {
-    const email = localStorage.getItem("currentUser");
-    const user = JSON.parse(localStorage.getItem(email));
-
-    if (!user) {
-      alert("You must be logged in to view this page.");
-      window.location.href = "login.html";
-      return;
-    }
-
-    welcomeText.textContent = `Welcome, ${user.firstName}! Here's your account`;
-
-    user.services.forEach(service => {
-      const li = document.createElement("li");
-      li.textContent = service;
-      servicesList?.appendChild(li);
-    });
-
-    user.whitepapers.forEach(paper => {
-      const li = document.createElement("li");
-      li.textContent = paper;
-      whitepapersList?.appendChild(li);
-    });
-
-    user.toolkits.forEach(tool => {
-      const li = document.createElement("li");
-      li.textContent = tool;
-      toolkitsList?.appendChild(li);
-    });
-  }
-
-  // Logout Logic
-  window.logout = function () {
-    localStorage.removeItem("currentUser");
-    window.location.href = "login.html";
+  const user = {
+    email,
+    password,
+    name,
+    institution,
+    institutionType,
+    services: [`Toolkit: ${toolkit}` + (guidance.includes("Yes") ? " + Guidance" : "")]
   };
+
+  loginUser(user);
+  saveToRegistry(user);
+
+  alert("You have now created a personal account at Resilient Ocean. You will be able to access the toolkits via your personal account tab at the top right of the home page.");
+  closeModal("toolkitModal");
+}
+
+// Save user in registry if not already stored
+function saveToRegistry(user) {
+  const registry = JSON.parse(localStorage.getItem(REGISTRY_KEY)) || [];
+
+  const exists = registry.some(u => u.email === user.email);
+  if (!exists) {
+    registry.push(user);
+    localStorage.setItem(REGISTRY_KEY, JSON.stringify(registry));
+  }
+}
+
+// Login handler (from login.html)
+function loginFromLoginPage(email, password, rememberMe) {
+  const registry = JSON.parse(localStorage.getItem(REGISTRY_KEY)) || [];
+
+  const user = registry.find(u => u.email === email && u.password === password);
+  if (user) {
+    loginUser(user);
+    if (rememberMe) {
+      localStorage.setItem("rememberMe", "true");
+    }
+    window.location.href = "account.html";
+  } else {
+    alert("Invalid credentials.");
+  }
+}
+
+// Persist login
+(function checkRememberMe() {
+  if (localStorage.getItem("rememberMe") === "true") {
+    restoreAccountTab();
+  }
+})();
+
+// Attach handler for toolkit form
+document.addEventListener("submit", function (e) {
+  if (e.target && e.target.id === "toolkitForm") {
+    handleToolkitSubmission(e);
+  }
 });
