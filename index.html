@@ -21,7 +21,7 @@
     <a href="#toolkits">Toolkit Demos</a>
     <a href="#contact">Contact</a>
     <a href="#" class="cart-icon">🛒</a>
-    <a href="account.html" id="myAccountTab" style="display: none;">My Account</a>
+    <!-- "My Account" will be added dynamically via auth.js -->
   </nav>
 
   <div class="container">
@@ -78,18 +78,10 @@
     &copy; 2025 Resilient Ocean — Nature. Finance. Impact.
   </footer>
 
-  <!-- Modal Forms will be inserted here -->
+  <!-- Modals and Scripts -->
   <div id="modalContainer"></div>
-
-  <!-- JavaScript -->
   <script src="modal.js"></script>
   <script src="chatbot.js"></script>
-  <script>
-    // Show "My Account" if a user is logged in
-    const currentUser = localStorage.getItem("currentUser") || localStorage.getItem("rememberMeUser");
-    if (currentUser) {
-      document.getElementById("myAccountTab").style.display = "inline";
-    }
-  </script>
+  <script src="auth.js"></script>
 </body>
 </html>
