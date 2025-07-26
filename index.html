@@ -37,8 +37,45 @@
     </button>
   </div>
 
-  <!-- Modals -->
-  <!-- (Unchanged modals stay intact) -->
+  <!-- Toolkit Modal -->
+  <div id="toolkitModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white p-8 rounded-lg max-w-lg w-full relative">
+      <button class="absolute top-3 right-3 text-gray-500" onclick="closeModal('toolkitModal')">&times;</button>
+      <h2 class="text-xl font-bold mb-4 text-green-800">Request Toolkit Access</h2>
+      <p class="text-sm mb-4 text-gray-600">Choose from our expert-designed ESG tools and templates.</p>
+      <form id="toolkitForm" onsubmit="event.preventDefault(); alert('Toolkit request submitted!'); closeModal('toolkitModal')">
+        <label class="block mb-2 font-medium">Email Address</label>
+        <input type="email" class="w-full border border-gray-300 rounded px-3 py-2 mb-4" required>
+        <label class="block mb-2 font-medium">Toolkit</label>
+        <select class="w-full border border-gray-300 rounded px-3 py-2 mb-4">
+          <option>Materiality Scoping Templates – Align with TNFD LEAP framework</option>
+          <option>Biodiversity Risk Dashboards – Visualize exposure by sector</option>
+          <option>MRV-ready Templates – Track ESG KPIs with standardized data</option>
+        </select>
+        <button type="submit" class="w-full bg-green-700 hover:bg-green-800 text-white py-2 rounded">Submit Request</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Whitepaper Modal -->
+  <div id="whitepaperModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white p-8 rounded-lg max-w-lg w-full relative">
+      <button class="absolute top-3 right-3 text-gray-500" onclick="closeModal('whitepaperModal')">&times;</button>
+      <h2 class="text-xl font-bold mb-4 text-green-800">Request Whitepaper</h2>
+      <p class="text-sm mb-4 text-gray-600">Access leading insight on biodiversity finance, disclosures, and ESG integration.</p>
+      <form id="whitepaperForm" onsubmit="event.preventDefault(); alert('Whitepaper request submitted!'); closeModal('whitepaperModal')">
+        <label class="block mb-2 font-medium">Email Address</label>
+        <input type="email" class="w-full border border-gray-300 rounded px-3 py-2 mb-4" required>
+        <label class="block mb-2 font-medium">Select Report</label>
+        <select class="w-full border border-gray-300 rounded px-3 py-2 mb-4">
+          <option>Integrating Nature into Risk Registers – TNFD and SBTN primer</option>
+          <option>CSRD + ESRS E4 – Reporting dependencies and impacts on biodiversity</option>
+          <option>Financing Nature – Blended finance and the biodiversity credit market</option>
+        </select>
+        <button type="submit" class="w-full bg-green-700 hover:bg-green-800 text-white py-2 rounded">Submit Request</button>
+      </form>
+    </div>
+  </div>
 
   <script>
     function openModal(id) {
