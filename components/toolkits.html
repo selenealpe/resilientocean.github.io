@@ -1,0 +1,39 @@
+<section id="toolkits" class="py-20 bg-white">
+  <div class="max-w-6xl mx-auto px-6">
+    <h2 class="text-3xl font-bold text-green-800 mb-10 text-center">Toolkits</h2>
+    <div class="grid md:grid-cols-3 gap-8">
+      <div class="bg-gray-100 p-6 rounded-lg shadow hover:shadow-md">
+        <h3 class="text-xl font-semibold mb-2">Materiality Scoping Templates</h3>
+        <p>Align with TNFD LEAP framework to define material nature risks.</p>
+      </div>
+      <div class="bg-gray-100 p-6 rounded-lg shadow hover:shadow-md">
+        <h3 class="text-xl font-semibold mb-2">Biodiversity Risk Dashboards</h3>
+        <p>Visualize your exposure to biodiversity loss by sector and geography.</p>
+      </div>
+      <div class="bg-gray-100 p-6 rounded-lg shadow hover:shadow-md">
+        <h3 class="text-xl font-semibold mb-2">MRV-ready Templates</h3>
+        <p>Track ESG KPIs with pre-built standardized data forms.</p>
+      </div>
+    </div>
+  </div>
+</section>
+✅ To use this modular file:
+Save it as:
+
+bash
+Copiar
+Editar
+components/toolkits.html
+In your main HTML (like index.html), include it dynamically with JavaScript:
+
+html
+Copiar
+Editar
+<div id="toolkitsContainer"></div>
+<script>
+  fetch('components/toolkits.html')
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById('toolkitsContainer').innerHTML = html;
+    });
+</script>
