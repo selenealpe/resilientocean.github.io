@@ -1,33 +1,32 @@
 <section class="py-16 bg-white">
-  <div class="max-w-7xl mx-auto px-6 text-center">
-    <h2 class="text-3xl font-bold text-green-800 mb-8">Ocean Industry Sectors</h2>
-    <div class="relative overflow-hidden">
-      <div id="carouselWrapper" class="overflow-hidden">
-        <div id="carousel" class="flex transition-transform duration-700 ease-in-out w-[2500px]">
-          <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e" class="w-1/4 h-64 object-cover flex-shrink-0" alt="Ocean Waves" />
-          <img src="https://images.unsplash.com/photo-1605648916319-dbd180c6f3b1" class="w-1/4 h-64 object-cover flex-shrink-0" alt="Wind Energy Offshore" />
-          <img src="https://images.unsplash.com/photo-1583241800601-d9dfec8bcbdc" class="w-1/4 h-64 object-cover flex-shrink-0" alt="Underwater Coral Reef" />
-          <img src="https://images.unsplash.com/photo-1506617420156-8e4536971650" class="w-1/4 h-64 object-cover flex-shrink-0" alt="Fishing Industry" />
-          <img src="https://images.unsplash.com/photo-1518837695005-2083093ee35b" class="w-1/4 h-64 object-cover flex-shrink-0" alt="Coastal Aquaculture" />
-          <img src="https://images.unsplash.com/photo-1529245019870-59d3c95a4d46" class="w-1/4 h-64 object-cover flex-shrink-0" alt="Port Infrastructure" />
-          <img src="https://images.unsplash.com/photo-1552089123-2f1120c0bfc8" class="w-1/4 h-64 object-cover flex-shrink-0" alt="Oil Rig at Sea" />
-          <img src="https://images.unsplash.com/photo-1573056466601-7d5df0c5f8f6" class="w-1/4 h-64 object-cover flex-shrink-0" alt="Shipping Container Terminal" />
-          <img src="https://images.unsplash.com/photo-1573496780554-1aaed73eaa46" class="w-1/4 h-64 object-cover flex-shrink-0" alt="Tourism Coastline" />
-          <img src="https://images.unsplash.com/photo-1607083209456-c047d57b1b7b" class="w-1/4 h-64 object-cover flex-shrink-0" alt="Seaweed Farming" />
-        </div>
+  <div class="max-w-7xl mx-auto px-6">
+    <h2 class="text-3xl font-bold text-green-800 text-center mb-8">Ocean Industry Sectors</h2>
+
+    <div class="relative">
+      <div id="carousel-track" class="flex transition-transform duration-700 ease-in-out">
+        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e" class="w-1/4 h-64 object-cover" alt="Waves" />
+        <img src="https://images.unsplash.com/photo-1605648916319-dbd180c6f3b1" class="w-1/4 h-64 object-cover" alt="Wind Turbines" />
+        <img src="https://images.unsplash.com/photo-1583241800601-d9dfec8bcbdc" class="w-1/4 h-64 object-cover" alt="Coral Reef" />
+        <img src="https://images.unsplash.com/photo-1506617420156-8e4536971650" class="w-1/4 h-64 object-cover" alt="Fishing Boat" />
+        <img src="https://images.unsplash.com/photo-1518837695005-2083093ee35b" class="w-1/4 h-64 object-cover" alt="Aquaculture" />
+        <img src="https://images.unsplash.com/photo-1529245019870-59d3c95a4d46" class="w-1/4 h-64 object-cover" alt="Port" />
+        <img src="https://images.unsplash.com/photo-1552089123-2f1120c0bfc8" class="w-1/4 h-64 object-cover" alt="Oil Rig" />
+        <img src="https://images.unsplash.com/photo-1573056466601-7d5df0c5f8f6" class="w-1/4 h-64 object-cover" alt="Shipping Terminal" />
+        <img src="https://images.unsplash.com/photo-1573496780554-1aaed73eaa46" class="w-1/4 h-64 object-cover" alt="Tourism Coastline" />
+        <img src="https://images.unsplash.com/photo-1607083209456-c047d57b1b7b" class="w-1/4 h-64 object-cover" alt="Seaweed Farming" />
       </div>
     </div>
   </div>
 </section>
 
 <script>
-  const carousel = document.getElementById('carousel');
-  const totalSlides = 10;
-  const visibleSlides = 4;
+  const track = document.getElementById('carousel-track');
+  const slideWidth = track.querySelector('img').clientWidth;
+  const totalSlides = track.children.length;
   let index = 0;
 
   setInterval(() => {
-    index = (index + 1) % (totalSlides - visibleSlides + 1);
-    carousel.style.transform = `translateX(-${index * 25}%)`;
-  }, 1000);
+    index = (index + 1) % totalSlides;
+    track.style.transform = `translateX(-${index * slideWidth}px)`;
+  }, 2000);
 </script>
