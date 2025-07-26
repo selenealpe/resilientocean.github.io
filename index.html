@@ -30,43 +30,116 @@
     </div>
   </header>
 
-  <!-- Hero -->
-  <section class="bg-[url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80')] bg-cover bg-center py-24 text-center text-white">
-    <div class="max-w-3xl mx-auto px-4">
-      <h1 class="text-4xl md:text-5xl font-bold mb-4">Nature. Finance. Impact.</h1>
-      <p class="text-lg md:text-xl mb-6">ESG & Biodiversity Solutions for a Sustainable Future</p>
-      <a href="#contact" class="bg-green-700 hover:bg-green-800 text-white px-6 py-3 rounded-lg text-sm font-semibold">Get a Pricing Proposal</a>
+  <!-- Button to open consultation modal and admin login -->
+  <div class="text-center py-6">
+    <button onclick="openModal('consultModal')" class="bg-green-700 hover:bg-green-800 text-white px-6 py-2 rounded text-sm font-semibold">
+      Schedule a Consultation
+    </button>
+    <button onclick="toggleAdminAccess()" class="ml-4 bg-gray-700 hover:bg-gray-800 text-white px-6 py-2 rounded text-sm font-semibold">
+      Admin Access
+    </button>
+    <div id="adminDownload" class="mt-4 hidden">
+      <button onclick="downloadSubmissions()" class="bg-blue-700 hover:bg-blue-800 text-white px-6 py-2 rounded text-sm font-semibold">
+        Download All Submissions
+      </button>
     </div>
-  </section>
+  </div>
 
-  <!-- Services -->
-  <section id="services" class="py-20 bg-white">
-    <div class="max-w-6xl mx-auto px-6">
-      <h2 class="text-3xl font-bold text-green-800 mb-10 text-center">Our Solutions</h2>
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <div class="bg-gray-100 p-6 rounded-lg shadow hover:shadow-md transition">
-          <h3 class="font-semibold text-xl mb-2">Biodiversity Risk Analytics</h3>
-          <p>Materiality screening aligned with TNFD, SBTN, and CSRD.</p>
-        </div>
-        <div class="bg-gray-100 p-6 rounded-lg shadow hover:shadow-md transition">
-          <h3 class="font-semibold text-xl mb-2">Corporate Toolkits & Training</h3>
-          <p>Guided programs to build ESG literacy and implementation capacity.</p>
-        </div>
-        <div class="bg-gray-100 p-6 rounded-lg shadow hover:shadow-md transition">
-          <h3 class="font-semibold text-xl mb-2">Carbon & Investment Advisory</h3>
-          <p>Nature-positive strategy support for climate-linked portfolios.</p>
-        </div>
-        <div class="bg-gray-100 p-6 rounded-lg shadow hover:shadow-md transition">
-          <h3 class="font-semibold text-xl mb-2">MRV Systems for ESG</h3>
-          <p>Monitoring and reporting frameworks for nature and ESG KPIs.</p>
-        </div>
-        <div class="bg-gray-100 p-6 rounded-lg shadow hover:shadow-md transition">
-          <h3 class="font-semibold text-xl mb-2">Sector-Specific ESG Advisory</h3>
-          <p>Tailored services for ocean industries, finance, tourism, and more.</p>
-        </div>
-      </div>
+  <!-- Modals -->
+  <div id="consultModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+    <div class="bg-white w-full max-w-lg p-8 rounded shadow-lg relative">
+      <button onclick="closeModal('consultModal')" class="absolute top-2 right-4 text-gray-600">&times;</button>
+      <h3 class="text-xl font-semibold text-green-800 mb-4">Schedule a Consultation</h3>
+      <form id="consultationForm" action="https://formsubmit.co/info@resilientocean.com" method="POST" class="space-y-4">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_subject" value="New Consultation Request">
+        <input class="border p-3 rounded w-full" type="email" placeholder="Email Address" name="email" required>
+        <input class="border p-3 rounded w-full" type="text" placeholder="Name" name="name" required>
+        <input class="border p-3 rounded w-full" type="text" placeholder="Institution Name" name="institution" required>
+        <textarea class="border p-3 rounded w-full" placeholder="What would you like to discuss?" name="message" rows="4" required></textarea>
+        <button type="submit" class="bg-green-700 text-white px-4 py-2 rounded hover:bg-green-800 w-full">Submit</button>
+      </form>
     </div>
-  </section>
+  </div>
+
+  <!-- Toolkit Modal -->
+  <div id="toolkitModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+    <div class="bg-white w-full max-w-lg p-8 rounded shadow-lg relative">
+      <button onclick="closeModal('toolkitModal')" class="absolute top-2 right-4 text-gray-600">&times;</button>
+      <h3 class="text-xl font-semibold text-green-800 mb-4">Request Toolkit Access</h3>
+      <form id="toolkitForm" action="https://formsubmit.co/info@resilientocean.com" method="POST" class="space-y-4">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_subject" value="New Toolkit Request">
+        <input class="border p-3 rounded w-full" type="email" name="email" placeholder="Email Address" required>
+        <input class="border p-3 rounded w-full" type="text" name="name" placeholder="Name" required>
+        <input class="border p-3 rounded w-full" type="text" name="institution" placeholder="Institution Name" required>
+        <select class="border p-3 rounded w-full" name="toolkit">
+          <option value="Materiality Scoping Templates">Materiality Scoping Templates</option>
+          <option value="Biodiversity Risk Dashboards">Biodiversity Risk Dashboards</option>
+          <option value="MRV-ready Templates">MRV-ready Templates</option>
+        </select>
+        <button type="submit" class="bg-green-700 text-white px-4 py-2 rounded hover:bg-green-800 w-full">Submit Request</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Whitepaper Modal -->
+  <div id="whitepaperModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+    <div class="bg-white w-full max-w-lg p-8 rounded shadow-lg relative">
+      <button onclick="closeModal('whitepaperModal')" class="absolute top-2 right-4 text-gray-600">&times;</button>
+      <h3 class="text-xl font-semibold text-green-800 mb-4">Request Whitepaper</h3>
+      <form id="whitepaperForm" action="https://formsubmit.co/info@resilientocean.com" method="POST" class="space-y-4">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_subject" value="New Whitepaper Request">
+        <input class="border p-3 rounded w-full" type="email" name="email" placeholder="Email Address" required>
+        <input class="border p-3 rounded w-full" type="text" name="name" placeholder="Name" required>
+        <input class="border p-3 rounded w-full" type="text" name="institution" placeholder="Institution Name" required>
+        <select class="border p-3 rounded w-full" name="whitepaper">
+          <option value="Nature Risk Registers">Integrating Nature into Risk Registers</option>
+          <option value="CSRD + ESRS E4">CSRD + ESRS E4</option>
+          <option value="Financing Nature">Financing Nature</option>
+        </select>
+        <button type="submit" class="bg-green-700 text-white px-4 py-2 rounded hover:bg-green-800 w-full">Submit Request</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function openModal(id) {
+      document.getElementById(id).classList.remove("hidden");
+      document.body.classList.add("overflow-hidden");
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.add("hidden");
+      document.body.classList.remove("overflow-hidden");
+    }
+
+    function toggleAdminAccess() {
+      const pass = prompt("Enter admin password:");
+      if (pass === ":Rmuu53J4XPdB@HMN!_") {
+        document.getElementById("adminDownload").classList.remove("hidden");
+      } else {
+        alert("Incorrect password.");
+      }
+    }
+
+    function downloadSubmissions() {
+      let allData = {};
+      for (let key in localStorage) {
+        if (key.endsWith('_submissions')) {
+          allData[key] = JSON.parse(localStorage.getItem(key));
+        }
+      }
+      const blob = new Blob([JSON.stringify(allData, null, 2)], { type: 'application/json' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'resilient-ocean-submissions.json';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  </script>
 
   <!-- Footer -->
   <footer class="bg-green-900 text-white py-10 mt-20">
