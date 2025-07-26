@@ -25,95 +25,48 @@
         <a href="#" class="text-green-800">🛒</a>
       </nav>
       <div>
-        <a href="#" class="text-sm font-semibold text-green-800 hover:underline" onclick="toggleAdminAccess()">My Account</a>
+        <a href="#" class="text-sm font-semibold text-green-800 hover:underline">My Account</a>
       </div>
     </div>
   </header>
 
-  <!-- Admin Download Section (Hidden by default) -->
-  <div id="adminDownload" class="text-center py-6 hidden">
-    <button onclick="downloadSubmissions()" class="bg-blue-700 hover:bg-blue-800 text-white px-6 py-2 rounded text-sm font-semibold">
-      Download All Submissions
-    </button>
-  </div>
-
-  <!-- Toolkit Modal -->
-  <div id="toolkitModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-    <div class="bg-white p-8 rounded-lg max-w-lg w-full relative">
-      <button class="absolute top-3 right-3 text-gray-500" onclick="closeModal('toolkitModal')">&times;</button>
-      <h2 class="text-xl font-bold mb-4 text-green-800">Request Toolkit Access</h2>
-      <p class="text-sm mb-4 text-gray-600">Choose from our expert-designed ESG tools and templates.</p>
-      <form id="toolkitForm" onsubmit="event.preventDefault(); alert('Toolkit request submitted!'); closeModal('toolkitModal')">
-        <label class="block mb-2 font-medium">Email Address</label>
-        <input type="email" class="w-full border border-gray-300 rounded px-3 py-2 mb-4" required>
-        <label class="block mb-2 font-medium">Toolkit</label>
-        <select class="w-full border border-gray-300 rounded px-3 py-2 mb-4">
-          <option>Materiality Scoping Templates – Align with TNFD LEAP framework</option>
-          <option>Biodiversity Risk Dashboards – Visualize exposure by sector</option>
-          <option>MRV-ready Templates – Track ESG KPIs with standardized data</option>
-        </select>
-        <button type="submit" class="w-full bg-green-700 hover:bg-green-800 text-white py-2 rounded">Submit Request</button>
-      </form>
+  <!-- Hero -->
+  <section class="bg-[url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80')] bg-cover bg-center py-24 text-center text-white">
+    <div class="max-w-3xl mx-auto px-4">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">Nature. Finance. Impact.</h1>
+      <p class="text-lg md:text-xl mb-6">ESG & Biodiversity Solutions for a Sustainable Future</p>
+      <a href="#contact" class="bg-green-700 hover:bg-green-800 text-white px-6 py-3 rounded-lg text-sm font-semibold">Get a Pricing Proposal</a>
     </div>
-  </div>
+  </section>
 
-  <!-- Whitepaper Modal -->
-  <div id="whitepaperModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-    <div class="bg-white p-8 rounded-lg max-w-lg w-full relative">
-      <button class="absolute top-3 right-3 text-gray-500" onclick="closeModal('whitepaperModal')">&times;</button>
-      <h2 class="text-xl font-bold mb-4 text-green-800">Request Whitepaper</h2>
-      <p class="text-sm mb-4 text-gray-600">Access leading insight on biodiversity finance, disclosures, and ESG integration.</p>
-      <form id="whitepaperForm" onsubmit="event.preventDefault(); alert('Whitepaper request submitted!'); closeModal('whitepaperModal')">
-        <label class="block mb-2 font-medium">Email Address</label>
-        <input type="email" class="w-full border border-gray-300 rounded px-3 py-2 mb-4" required>
-        <label class="block mb-2 font-medium">Select Report</label>
-        <select class="w-full border border-gray-300 rounded px-3 py-2 mb-4">
-          <option>Integrating Nature into Risk Registers – TNFD and SBTN primer</option>
-          <option>CSRD + ESRS E4 – Reporting dependencies and impacts on biodiversity</option>
-          <option>Financing Nature – Blended finance and the biodiversity credit market</option>
-        </select>
-        <button type="submit" class="w-full bg-green-700 hover:bg-green-800 text-white py-2 rounded">Submit Request</button>
-      </form>
+  <!-- Services -->
+  <section id="services" class="py-20 bg-white">
+    <div class="max-w-6xl mx-auto px-6">
+      <h2 class="text-3xl font-bold text-green-800 mb-10 text-center">Our Solutions</h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="bg-gray-100 p-6 rounded-lg shadow hover:shadow-md transition">
+          <h3 class="font-semibold text-xl mb-2">Biodiversity Risk Analytics</h3>
+          <p>Materiality screening aligned with TNFD, SBTN, and CSRD.</p>
+        </div>
+        <div class="bg-gray-100 p-6 rounded-lg shadow hover:shadow-md transition">
+          <h3 class="font-semibold text-xl mb-2">Corporate Toolkits & Training</h3>
+          <p>Guided programs to build ESG literacy and implementation capacity.</p>
+        </div>
+        <div class="bg-gray-100 p-6 rounded-lg shadow hover:shadow-md transition">
+          <h3 class="font-semibold text-xl mb-2">Carbon & Investment Advisory</h3>
+          <p>Nature-positive strategy support for climate-linked portfolios.</p>
+        </div>
+        <div class="bg-gray-100 p-6 rounded-lg shadow hover:shadow-md transition">
+          <h3 class="font-semibold text-xl mb-2">MRV Systems for ESG</h3>
+          <p>Monitoring and reporting frameworks for nature and ESG KPIs.</p>
+        </div>
+        <div class="bg-gray-100 p-6 rounded-lg shadow hover:shadow-md transition">
+          <h3 class="font-semibold text-xl mb-2">Sector-Specific ESG Advisory</h3>
+          <p>Tailored services for ocean industries, finance, tourism, and more.</p>
+        </div>
+      </div>
     </div>
-  </div>
-
-  <script>
-    function openModal(id) {
-      document.getElementById(id).classList.remove("hidden");
-      document.body.classList.add("overflow-hidden");
-    }
-
-    function closeModal(id) {
-      document.getElementById(id).classList.add("hidden");
-      document.body.classList.remove("overflow-hidden");
-    }
-
-    function toggleAdminAccess() {
-      const pass = prompt("Enter admin password:");
-      if (pass === ":Rmuu53J4XPdB@HMN!_") {
-        document.getElementById("adminDownload").classList.remove("hidden");
-        alert("Welcome, Admin. Scroll to the bottom of the page to download submissions.");
-      } else {
-        alert("Incorrect password.");
-      }
-    }
-
-    function downloadSubmissions() {
-      let allData = {};
-      for (let key in localStorage) {
-        if (key.endsWith('_submissions')) {
-          allData[key] = JSON.parse(localStorage.getItem(key));
-        }
-      }
-      const blob = new Blob([JSON.stringify(allData, null, 2)], { type: 'application/json' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = 'resilient-ocean-submissions.json';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-  </script>
+  </section>
 
   <!-- Footer -->
   <footer class="bg-green-900 text-white py-10 mt-20">
