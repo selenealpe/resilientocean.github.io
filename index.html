@@ -25,12 +25,12 @@
         <a href="#" class="text-green-800">🛒</a>
       </nav>
       <div>
-        <a href="#" class="text-sm font-semibold text-green-800 hover:underline">My Account</a>
+        <a href="#" class="text-sm font-semibold text-green-800 hover:underline" onclick="toggleAdminAccess()">My Account</a>
       </div>
     </div>
   </header>
 
-  <!-- Hero -->
+  <!-- Hero Section -->
   <section class="bg-[url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80')] bg-cover bg-center py-24 text-center text-white">
     <div class="max-w-3xl mx-auto px-4">
       <h1 class="text-4xl md:text-5xl font-bold mb-4">Nature. Finance. Impact.</h1>
@@ -39,34 +39,155 @@
     </div>
   </section>
 
-  <!-- Services -->
-  <section id="services" class="py-20 bg-white">
+  <!-- Toolkit Section -->
+  <section id="toolkits" class="py-20 bg-white">
     <div class="max-w-6xl mx-auto px-6">
-      <h2 class="text-3xl font-bold text-green-800 mb-10 text-center">Our Solutions</h2>
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <div class="bg-gray-100 p-6 rounded-lg shadow hover:shadow-md transition">
-          <h3 class="font-semibold text-xl mb-2">Biodiversity Risk Analytics</h3>
-          <p>Materiality screening aligned with TNFD, SBTN, and CSRD.</p>
+      <h2 class="text-3xl font-bold text-green-800 mb-10 text-center">Toolkits</h2>
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="bg-gray-100 p-6 rounded-lg shadow hover:shadow-md">
+          <h3 class="text-xl font-semibold mb-2">Materiality Scoping Templates</h3>
+          <p>Align with TNFD LEAP framework to define material nature risks.</p>
         </div>
-        <div class="bg-gray-100 p-6 rounded-lg shadow hover:shadow-md transition">
-          <h3 class="font-semibold text-xl mb-2">Corporate Toolkits & Training</h3>
-          <p>Guided programs to build ESG literacy and implementation capacity.</p>
+        <div class="bg-gray-100 p-6 rounded-lg shadow hover:shadow-md">
+          <h3 class="text-xl font-semibold mb-2">Biodiversity Risk Dashboards</h3>
+          <p>Visualize your exposure to biodiversity loss by sector and geography.</p>
         </div>
-        <div class="bg-gray-100 p-6 rounded-lg shadow hover:shadow-md transition">
-          <h3 class="font-semibold text-xl mb-2">Carbon & Investment Advisory</h3>
-          <p>Nature-positive strategy support for climate-linked portfolios.</p>
-        </div>
-        <div class="bg-gray-100 p-6 rounded-lg shadow hover:shadow-md transition">
-          <h3 class="font-semibold text-xl mb-2">MRV Systems for ESG</h3>
-          <p>Monitoring and reporting frameworks for nature and ESG KPIs.</p>
-        </div>
-        <div class="bg-gray-100 p-6 rounded-lg shadow hover:shadow-md transition">
-          <h3 class="font-semibold text-xl mb-2">Sector-Specific ESG Advisory</h3>
-          <p>Tailored services for ocean industries, finance, tourism, and more.</p>
+        <div class="bg-gray-100 p-6 rounded-lg shadow hover:shadow-md">
+          <h3 class="text-xl font-semibold mb-2">MRV-ready Templates</h3>
+          <p>Track ESG KPIs with pre-built standardized data forms.</p>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- Insights Carousel -->
+  <section id="insights" class="py-20 bg-gray-50">
+    <div class="max-w-6xl mx-auto px-6">
+      <h2 class="text-3xl font-bold text-green-800 mb-10 text-center">Insights</h2>
+      <div class="flex overflow-x-auto gap-6 pb-4 snap-x snap-mandatory">
+        <div class="snap-center shrink-0 w-80 bg-white p-6 rounded shadow">
+          <h3 class="font-semibold text-lg mb-2">Integrating Nature into Risk Registers</h3>
+          <p class="text-sm mb-4">TNFD and SBTN primer</p>
+          <button class="bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded text-sm">Add to Cart</button>
+        </div>
+        <div class="snap-center shrink-0 w-80 bg-white p-6 rounded shadow">
+          <h3 class="font-semibold text-lg mb-2">CSRD + ESRS E4</h3>
+          <p class="text-sm mb-4">Reporting dependencies and biodiversity impacts</p>
+          <button class="bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded text-sm">Add to Cart</button>
+        </div>
+        <div class="snap-center shrink-0 w-80 bg-white p-6 rounded shadow">
+          <h3 class="font-semibold text-lg mb-2">Financing Nature</h3>
+          <p class="text-sm mb-4">Blended finance and biodiversity credit markets</p>
+          <button class="bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded text-sm">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Image Carousel for Ocean Industries -->
+  <section class="py-16 bg-white">
+    <div class="max-w-6xl mx-auto px-6 text-center">
+      <h2 class="text-3xl font-bold text-green-800 mb-8">Ocean Industry Sectors</h2>
+      <div class="relative overflow-hidden">
+        <div id="carousel" class="flex transition-all duration-700">
+          <img src="https://source.unsplash.com/800x400/?shipping" class="w-full object-cover">
+          <img src="https://source.unsplash.com/800x400/?marine-energy" class="w-full object-cover">
+          <img src="https://source.unsplash.com/800x400/?coastal-tourism" class="w-full object-cover">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Admin Download Section (Hidden by default) -->
+  <div id="adminDownload" class="text-center py-6 hidden">
+    <button onclick="downloadSubmissions()" class="bg-blue-700 hover:bg-blue-800 text-white px-6 py-2 rounded text-sm font-semibold">
+      Download All Submissions
+    </button>
+  </div>
+
+  <!-- Toolkit Modal -->
+  <div id="toolkitModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white p-8 rounded-lg max-w-lg w-full relative">
+      <button class="absolute top-3 right-3 text-gray-500" onclick="closeModal('toolkitModal')">&times;</button>
+      <h2 class="text-xl font-bold mb-4 text-green-800">Request Toolkit Access</h2>
+      <form id="toolkitForm" onsubmit="event.preventDefault(); alert('Toolkit request submitted!'); closeModal('toolkitModal')">
+        <label class="block mb-2 font-medium">Email Address</label>
+        <input type="email" class="w-full border border-gray-300 rounded px-3 py-2 mb-4" required>
+        <label class="block mb-2 font-medium">Toolkit</label>
+        <select class="w-full border border-gray-300 rounded px-3 py-2 mb-4">
+          <option>Materiality Scoping Templates</option>
+          <option>Biodiversity Risk Dashboards</option>
+          <option>MRV-ready Templates</option>
+        </select>
+        <button type="submit" class="w-full bg-green-700 hover:bg-green-800 text-white py-2 rounded">Submit Request</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Whitepaper Modal -->
+  <div id="whitepaperModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white p-8 rounded-lg max-w-lg w-full relative">
+      <button class="absolute top-3 right-3 text-gray-500" onclick="closeModal('whitepaperModal')">&times;</button>
+      <h2 class="text-xl font-bold mb-4 text-green-800">Request Whitepaper</h2>
+      <form id="whitepaperForm" onsubmit="event.preventDefault(); alert('Whitepaper request submitted!'); closeModal('whitepaperModal')">
+        <label class="block mb-2 font-medium">Email Address</label>
+        <input type="email" class="w-full border border-gray-300 rounded px-3 py-2 mb-4" required>
+        <label class="block mb-2 font-medium">Select Report</label>
+        <select class="w-full border border-gray-300 rounded px-3 py-2 mb-4">
+          <option>Integrating Nature into Risk Registers</option>
+          <option>CSRD + ESRS E4</option>
+          <option>Financing Nature</option>
+        </select>
+        <button type="submit" class="w-full bg-green-700 hover:bg-green-800 text-white py-2 rounded">Submit Request</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- JS Carousel Logic -->
+  <script>
+    let carousel = document.getElementById('carousel');
+    let offset = 0;
+    setInterval(() => {
+      offset = (offset + 1) % 3;
+      carousel.style.transform = `translateX(-${offset * 100}%)`;
+    }, 3000);
+
+    function openModal(id) {
+      document.getElementById(id).classList.remove("hidden");
+      document.body.classList.add("overflow-hidden");
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.add("hidden");
+      document.body.classList.remove("overflow-hidden");
+    }
+
+    function toggleAdminAccess() {
+      const pass = prompt("Enter admin password:");
+      if (pass === ":Rmuu53J4XPdB@HMN!_") {
+        document.getElementById("adminDownload").classList.remove("hidden");
+        alert("Welcome, Admin. Scroll to the bottom of the page to download submissions.");
+      } else {
+        alert("Incorrect password.");
+      }
+    }
+
+    function downloadSubmissions() {
+      let allData = {};
+      for (let key in localStorage) {
+        if (key.endsWith('_submissions')) {
+          allData[key] = JSON.parse(localStorage.getItem(key));
+        }
+      }
+      const blob = new Blob([JSON.stringify(allData, null, 2)], { type: 'application/json' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'resilient-ocean-submissions.json';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  </script>
 
   <!-- Footer -->
   <footer class="bg-green-900 text-white py-10 mt-20">
