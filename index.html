@@ -4,84 +4,82 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Resilient Ocean | ESG & Biodiversity Solutions</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="modal.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
 </head>
-<body>
-  <header>
-    <h1>Resilient Ocean</h1>
-    <p>Nature-Finance-Impact Advisory for a Sustainable Future</p>
-    <button class="button hero-button" onclick="openModal('pricingModal')">Get a Pricing Proposal</button>
+<body class="bg-gray-50 text-gray-800">
+  <!-- Header & Nav -->
+  <header class="bg-white shadow sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+      <div class="text-2xl font-bold text-green-800">Resilient Ocean</div>
+      <nav class="hidden md:flex gap-6 text-sm font-semibold">
+        <a href="#services" class="hover:text-green-700">Solutions</a>
+        <a href="#insights" class="hover:text-green-700">Insights</a>
+        <a href="#toolkits" class="hover:text-green-700">Toolkits</a>
+        <a href="#contact" class="hover:text-green-700">Contact</a>
+        <a href="#" class="text-green-800">🛒</a>
+      </nav>
+      <div>
+        <a href="#" class="text-sm font-semibold text-green-800 hover:underline">My Account</a>
+      </div>
+    </div>
   </header>
 
-  <nav>
-    <a href="#services">Services</a>
-    <a href="#whitepapers">Whitepapers</a>
-    <a href="#toolkits">Toolkit Demos</a>
-    <a href="#contact">Contact</a>
-    <a href="#" class="cart-icon">🛒</a>
-    <!-- "My Account" will be added dynamically via auth.js -->
-  </nav>
+  <!-- Hero -->
+  <section class="bg-[url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80')] bg-cover bg-center py-24 text-center text-white">
+    <div class="max-w-3xl mx-auto px-4">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">Nature. Finance. Impact.</h1>
+      <p class="text-lg md:text-xl mb-6">ESG & Biodiversity Solutions for a Sustainable Future</p>
+      <a href="#contact" class="bg-green-700 hover:bg-green-800 text-white px-6 py-3 rounded-lg text-sm font-semibold">Get a Pricing Proposal</a>
+    </div>
+  </section>
 
-  <div class="container">
-    <section id="services">
-      <h2>Our Services</h2>
-      <div class="card">
-        <ul>
-          <li>Biodiversity Risk Analytics & Nature Materiality Screening</li>
-          <li>Corporate Toolkits & Training on TNFD, CSRD, SBTN</li>
-          <li>Carbon Markets, GCF Finance, and Sustainable Land-Use Planning</li>
-          <li>MRV Systems for ESG KPIs and Nature-related Performance</li>
-          <li>Sector-specific Biodiversity & ESG Advisory (Blue Economy)</li>
-        </ul>
-        <button class="button" onclick="openModal('consultModal')">Request a Consultation</button>
+  <!-- Services -->
+  <section id="services" class="py-20 bg-white">
+    <div class="max-w-6xl mx-auto px-6">
+      <h2 class="text-3xl font-bold text-green-800 mb-10 text-center">Our Solutions</h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="bg-gray-100 p-6 rounded-lg shadow hover:shadow-md transition">
+          <h3 class="font-semibold text-xl mb-2">Biodiversity Risk Analytics</h3>
+          <p>Materiality screening aligned with TNFD, SBTN, and CSRD.</p>
+        </div>
+        <div class="bg-gray-100 p-6 rounded-lg shadow hover:shadow-md transition">
+          <h3 class="font-semibold text-xl mb-2">Corporate Toolkits & Training</h3>
+          <p>Guided programs to build ESG literacy and implementation capacity.</p>
+        </div>
+        <div class="bg-gray-100 p-6 rounded-lg shadow hover:shadow-md transition">
+          <h3 class="font-semibold text-xl mb-2">Carbon & Investment Advisory</h3>
+          <p>Nature-positive strategy support for climate-linked portfolios.</p>
+        </div>
+        <div class="bg-gray-100 p-6 rounded-lg shadow hover:shadow-md transition">
+          <h3 class="font-semibold text-xl mb-2">MRV Systems for ESG</h3>
+          <p>Monitoring and reporting frameworks for nature and ESG KPIs.</p>
+        </div>
+        <div class="bg-gray-100 p-6 rounded-lg shadow hover:shadow-md transition">
+          <h3 class="font-semibold text-xl mb-2">Sector-Specific ESG Advisory</h3>
+          <p>Tailored services for ocean industries, finance, tourism, and more.</p>
+        </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section id="whitepapers">
-      <h2>Whitepapers</h2>
-      <div class="card">
-        <p>Our downloadable papers offer practical ESG and biodiversity insights:</p>
-        <ul>
-          <li><strong>Integrating Nature into Risk Registers:</strong> TNFD and SBTN primer</li>
-          <li><strong>CSRD + ESRS E4:</strong> Reporting dependencies and impacts on biodiversity</li>
-          <li><strong>Financing Nature:</strong> Blended finance and the biodiversity credit market</li>
-        </ul>
-        <button class="button" onclick="openModal('whitepaperModal')">Get Whitepapers</button>
+  <!-- Footer -->
+  <footer class="bg-green-900 text-white py-10 mt-20">
+    <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
+      <div class="mb-4 md:mb-0 text-center md:text-left">
+        &copy; 2025 Resilient Ocean. All rights reserved.
       </div>
-    </section>
-
-    <section id="toolkits">
-      <h2>Toolkit Demos</h2>
-      <div class="card">
-        <p>Access our interactive tools and templates to help corporates and investors:</p>
-        <ul>
-          <li>Materiality Scoping Templates aligned with TNFD LEAP</li>
-          <li>Biodiversity Risk Dashboards</li>
-          <li>MRV-ready data collection templates and sectoral KPIs</li>
-        </ul>
-        <button class="button" onclick="openModal('toolkitModal')">Request Access</button>
+      <div class="text-sm flex gap-6">
+        <a href="#" class="hover:underline">Privacy</a>
+        <a href="#" class="hover:underline">Terms</a>
+        <a href="#contact" class="hover:underline">Contact</a>
       </div>
-    </section>
-
-    <section id="contact">
-      <h2>Contact Us</h2>
-      <div class="card">
-        <p>Reach out for collaborations, advisory, or to schedule a briefing session.</p>
-        <p><a href="#" onclick="openModal('contactModal')">info@resilientocean.com</a></p>
-      </div>
-    </section>
-  </div>
-
-  <footer>
-    &copy; 2025 Resilient Ocean — Nature. Finance. Impact.
+    </div>
   </footer>
-
-  <!-- Modals and Scripts -->
-  <div id="modalContainer"></div>
-  <script src="modal.js"></script>
-  <script src="chatbot.js"></script>
-  <script src="auth.js"></script>
 </body>
 </html>
