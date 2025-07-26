@@ -78,8 +78,6 @@
   <!-- Insights Section Placeholder -->
   <div id="insightsContainer"></div>
 
-  <!-- Ocean Carousel Section Placeholder -->
-  <div id="carouselContainer"></div>
 
   <!-- Admin Download Section (Hidden by default) -->
   <div id="adminDownload" class="text-center py-6 hidden">
@@ -103,12 +101,6 @@
       .then(res => res.text())
       .then(html => {
         document.getElementById('insightsContainer').innerHTML = html;
-      });
-
-    fetch('components/ocean-carousel.html')
-      .then(res => res.text())
-      .then(html => {
-        document.getElementById('carouselContainer').innerHTML = html;
       });
 
     function openModal(id) {
