@@ -1,12 +1,29 @@
 <section class="py-16 bg-white">
-  <div class="max-w-6xl mx-auto px-6 text-center">
+  <div class="max-w-7xl mx-auto px-6 text-center">
     <h2 class="text-3xl font-bold text-green-800 mb-8">Ocean Industry Sectors</h2>
     <div class="relative overflow-hidden">
-      <div id="carousel" class="flex transition-all duration-700">
-        <img src="https://source.unsplash.com/800x400/?shipping" class="w-full object-cover">
-        <img src="https://source.unsplash.com/800x400/?marine-energy" class="w-full object-cover">
-        <img src="https://source.unsplash.com/800x400/?coastal-tourism" class="w-full object-cover">
+      <div id="carousel" class="flex transition-transform duration-700 ease-in-out w-[1000%]">
+        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e" class="w-full h-80 object-cover flex-shrink-0" alt="Ocean Waves">
+        <img src="https://images.unsplash.com/photo-1605648916319-dbd180c6f3b1" class="w-full h-80 object-cover flex-shrink-0" alt="Wind Energy Offshore">
+        <img src="https://images.unsplash.com/photo-1583241800601-d9dfec8bcbdc" class="w-full h-80 object-cover flex-shrink-0" alt="Underwater Coral Reef">
+        <img src="https://images.unsplash.com/photo-1506617420156-8e4536971650" class="w-full h-80 object-cover flex-shrink-0" alt="Fishing Industry">
+        <img src="https://images.unsplash.com/photo-1518837695005-2083093ee35b" class="w-full h-80 object-cover flex-shrink-0" alt="Coastal Aquaculture">
+        <img src="https://images.unsplash.com/photo-1529245019870-59d3c95a4d46" class="w-full h-80 object-cover flex-shrink-0" alt="Port Infrastructure">
+        <img src="https://images.unsplash.com/photo-1552089123-2f1120c0bfc8" class="w-full h-80 object-cover flex-shrink-0" alt="Oil Rig at Sea">
+        <img src="https://images.unsplash.com/photo-1573056466601-7d5df0c5f8f6" class="w-full h-80 object-cover flex-shrink-0" alt="Shipping Container Terminal">
+        <img src="https://images.unsplash.com/photo-1573496780554-1aaed73eaa46" class="w-full h-80 object-cover flex-shrink-0" alt="Tourism Coastline">
+        <img src="https://images.unsplash.com/photo-1607083209456-c047d57b1b7b" class="w-full h-80 object-cover flex-shrink-0" alt="Seaweed Farming">
       </div>
     </div>
   </div>
 </section>
+
+<script>
+  let carousel = document.getElementById('carousel');
+  let index = 0;
+  const slideCount = 10;
+  setInterval(() => {
+    index = (index + 1) % slideCount;
+    carousel.style.transform = `translateX(-${index * 100}%)`;
+  }, 3500);
+</script>
