@@ -4,12 +4,28 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Resilient Ocean | ESG & Biodiversity Solutions</title>
+
+  <!-- Tailwind for the current layout -->
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Modals + Global styles (keep your look) -->
+  <link rel="stylesheet" href="modal.css">
+
+  <!-- EmailJS (for admin + welcome emails) -->
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.emailjs) {
+        emailjs.init("YOUR_EMAILJS_PUBLIC_KEY"); // <-- REPLACE
+      }
+    });
+  </script>
+
   <style>
-    body {
-      font-family: 'Inter', sans-serif;
-    }
+    body { font-family: 'Inter', sans-serif; }
   </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
@@ -17,101 +33,136 @@
   <header class="bg-white shadow sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
       <div class="text-2xl font-bold text-green-800">Resilient Ocean</div>
-      <nav class="hidden md:flex gap-6 text-sm font-semibold">
+      <nav class="hidden md:flex gap-6 text-sm font-semibold items-center">
         <a href="#services" class="hover:text-green-700">Solutions</a>
         <a href="#insightsContainer" class="hover:text-green-700">Insights</a>
         <a href="#toolkitsContainer" class="hover:text-green-700">Toolkits</a>
         <a href="#contact" class="hover:text-green-700">Contact</a>
-        <a href="#" class="text-green-800">🛒</a>
+
+        <!-- Cart with counter -->
+        <a href="#" id="cartButton" class="text-green-800 relative" onclick="openModal('cartModal')">
+          🛒
+          <span id="cartCount" class="absolute -top-2 -right-3 bg-green-700 text-white text-[10px] px-1.5 py-0.5 rounded-full">0</span>
+        </a>
+
+        <!-- "My Account" injected dynamically by auth.js (prevents duplicates) -->
+        <span id="accountMount"></span>
+
+        <!-- Admin access (password prompt remains) -->
+        <a href="#" class="text-sm font-semibold text-green-800 hover:underline" onclick="toggleAdminAccess()">Admin</a>
       </nav>
-      <div>
-        <a href="#" class="text-sm font-semibold text-green-800 hover:underline" onclick="toggleAdminAccess()">My Account</a>
-      </div>
     </div>
   </header>
 
-  <!-- Hero Section -->
- <section class="bg-[url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80')] bg-cover bg-center py-24 text-center text-white">
+  <!-- Hero -->
+  <section class="bg-[url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80')] bg-cover bg-center py-24 text-center text-white">
     <div class="max-w-3xl mx-auto px-4">
       <h1 class="text-4xl md:text-5xl font-bold mb-4">Nature. Finance. Impact.</h1>
       <p class="text-lg md:text-xl mb-6">ESG & Biodiversity Solutions for a Sustainable Future</p>
-      <a href="#contact" class="bg-green-700 hover:bg-green-800 text-white px-6 py-3 rounded-lg text-sm font-semibold">Get a Pricing Proposal</a>
+
+      <!-- Clickable action box: opens unified registration + selection modal -->
+      <button
+        class="bg-green-700 hover:bg-green-800 text-white px-6 py-3 rounded-lg text-sm font-semibold"
+        onclick="openUnifiedAddModal({ type: 'Service', name: 'Pricing Proposal' })">
+        Get a Pricing Proposal
+      </button>
     </div>
   </section>
 
   <!-- Our Advisory & Consultancy Services -->
-<section id="services" class="py-20 bg-gray-50">
-  <div class="max-w-6xl mx-auto px-6">
-    <h2 class="text-3xl font-bold text-green-800 mb-10 text-center">Our Advisory & Consultancy Services</h2>
-    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-      <div class="group relative bg-white border border-gray-200 rounded-lg p-6 shadow hover:shadow-md transition">
-        <h3 class="text-lg font-semibold text-green-800">Biodiversity Risk Analytics</h3>
-        <div class="absolute inset-0 bg-green-900 text-white text-sm opacity-0 group-hover:opacity-90 transition-opacity p-4 rounded-lg z-10">
-          Corporate-level screening, scenario analysis, risk mapping, sectoral biodiversity impact pathways (TNFD, SBTN, GBF, IBAT, ENCORE, CSRD).
+  <section id="services" class="py-20 bg-gray-50">
+    <div class="max-w-6xl mx-auto px-6">
+      <h2 class="text-3xl font-bold text-green-800 mb-10 text-center">Our Advisory & Consultancy Services</h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Service card 1 -->
+        <div class="group relative bg-white border border-gray-200 rounded-lg p-6 shadow hover:shadow-md transition">
+          <h3 class="text-lg font-semibold text-green-800">Biodiversity Risk Analytics</h3>
+          <p class="mt-2 text-sm text-gray-600">Corporate screening, scenario analysis, risk mapping (TNFD, SBTN, ENCORE).</p>
+          <button class="mt-4 bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded text-sm"
+            onclick="openUnifiedAddModal({type:'Service', name:'Biodiversity Risk Analytics'})">
+            Add to Cart
+          </button>
         </div>
-      </div>
-      <div class="group relative bg-white border border-gray-200 rounded-lg p-6 shadow hover:shadow-md transition">
-        <h3 class="text-lg font-semibold text-green-800">Toolkits & Training</h3>
-        <div class="absolute inset-0 bg-green-900 text-white text-sm opacity-0 group-hover:opacity-90 transition-opacity p-4 rounded-lg z-10">
-          Corporate Toolkits & Training on TNFD, CSRD, SBTN.
+
+        <!-- Service card 2 -->
+        <div class="group relative bg-white border border-gray-200 rounded-lg p-6 shadow hover:shadow-md transition">
+          <h3 class="text-lg font-semibold text-green-800">Toolkits & Training</h3>
+          <p class="mt-2 text-sm text-gray-600">Corporate Toolkits & Training on TNFD, CSRD, SBTN.</p>
+          <button class="mt-4 bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded text-sm"
+            onclick="openUnifiedAddModal({type:'Service', name:'Toolkits & Training'})">
+            Add to Cart
+          </button>
         </div>
-      </div>
-      <div class="group relative bg-white border border-gray-200 rounded-lg p-6 shadow hover:shadow-md transition">
-        <h3 class="text-lg font-semibold text-green-800">Blue Economy ESG Advisory</h3>
-        <div class="absolute inset-0 bg-green-900 text-white text-sm opacity-0 group-hover:opacity-90 transition-opacity p-4 rounded-lg z-10">
-          ESIA, ESMP, ESDD, ESMS development & audit (IFC PS, GCF standards, LCA, ISO 14001).
+
+        <!-- Service card 3 -->
+        <div class="group relative bg-white border border-gray-200 rounded-lg p-6 shadow hover:shadow-md transition">
+          <h3 class="text-lg font-semibold text-green-800">Blue Economy ESG Advisory</h3>
+          <p class="mt-2 text-sm text-gray-600">ESIA/ESMP/ESDD/ESMS (IFC PS, GCF standards, LCA, ISO 14001).</p>
+          <button class="mt-4 bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded text-sm"
+            onclick="openUnifiedAddModal({type:'Service', name:'Blue Economy ESG Advisory'})">
+            Add to Cart
+          </button>
         </div>
-      </div>
-      <div class="group relative bg-white border border-gray-200 rounded-lg p-6 shadow hover:shadow-md transition">
-        <h3 class="text-lg font-semibold text-green-800">MRV Systems for ESG</h3>
-        <div class="absolute inset-0 bg-green-900 text-white text-sm opacity-0 group-hover:opacity-90 transition-opacity p-4 rounded-lg z-10">
-          ESG KPI setup, verification systems, remote sensing monitoring (SFDR, EU Taxonomy, CSRD).
+
+        <!-- Service card 4 -->
+        <div class="group relative bg-white border border-gray-200 rounded-lg p-6 shadow hover:shadow-md transition">
+          <h3 class="text-lg font-semibold text-green-800">MRV Systems for ESG</h3>
+          <p class="mt-2 text-sm text-gray-600">ESG KPI setup, verification & remote monitoring (SFDR, EU Taxonomy, CSRD).</p>
+          <button class="mt-4 bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded text-sm"
+            onclick="openUnifiedAddModal({type:'Service', name:'MRV Systems for ESG'})">
+            Add to Cart
+          </button>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- Toolkit Section Placeholder -->
+  <!-- Toolkit & Insights (kept as you had) -->
   <div id="toolkitsContainer"></div>
-
-  <!-- Insights Section Placeholder -->
   <div id="insightsContainer"></div>
 
-
-  <!-- Admin Download Section (Hidden by default) -->
+  <!-- Admin Download (unchanged) -->
   <div id="adminDownload" class="text-center py-6 hidden">
     <button onclick="downloadSubmissions()" class="bg-blue-700 hover:bg-blue-800 text-white px-6 py-2 rounded text-sm font-semibold">
       Download All Submissions
     </button>
   </div>
 
-  <!-- Toolkit Modal -->
-  <!-- ... Modal content remains unchanged ... -->
+  <!-- Contact Section -->
+  <section id="contact" class="py-16 bg-white">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <h2 class="text-2xl font-bold text-green-800 mb-4">Contact</h2>
+      <p class="text-gray-700 mb-6">Reach out for collaborations, advisory, or to schedule a briefing session.</p>
+      <button class="bg-green-700 hover:bg-green-800 text-white px-6 py-3 rounded"
+        onclick="openUnifiedAddModal({type:'Service', name:'General Inquiry'})">
+        Request a Consultation
+      </button>
+    </div>
+  </section>
 
-  <!-- JS Carousel Logic -->
+  <!-- Footer -->
+  <footer class="bg-green-900 text-white py-10 mt-20">
+    <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
+      <div class="mb-4 md:mb-0 text-center md:text-left">
+        &copy; 2025 Resilient Ocean. All rights reserved.
+      </div>
+      <div class="text-sm flex gap-6">
+        <a href="#" class="hover:underline">Privacy</a>
+        <a href="#" class="hover:underline">Terms</a>
+        <a href="#contact" class="hover:underline">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Dynamic components -->
   <script>
     fetch('components/toolkits.html')
       .then(res => res.text())
-      .then(html => {
-        document.getElementById('toolkitsContainer').innerHTML = html;
-      });
+      .then(html => { document.getElementById('toolkitsContainer').innerHTML = html; });
 
     fetch('components/insights.html')
       .then(res => res.text())
-      .then(html => {
-        document.getElementById('insightsContainer').innerHTML = html;
-      });
-
-    function openModal(id) {
-      document.getElementById(id).classList.remove("hidden");
-      document.body.classList.add("overflow-hidden");
-    }
-
-    function closeModal(id) {
-      document.getElementById(id).classList.add("hidden");
-      document.body.classList.remove("overflow-hidden");
-    }
+      .then(html => { document.getElementById('insightsContainer').innerHTML = html; });
 
     function toggleAdminAccess() {
       const pass = prompt("Enter admin password:");
@@ -140,18 +191,9 @@
     }
   </script>
 
-  <!-- Footer -->
-  <footer class="bg-green-900 text-white py-10 mt-20">
-    <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
-      <div class="mb-4 md:mb-0 text-center md:text-left">
-        &copy; 2025 Resilient Ocean. All rights reserved.
-      </div>
-      <div class="text-sm flex gap-6">
-        <a href="#" class="hover:underline">Privacy</a>
-        <a href="#" class="hover:underline">Terms</a>
-        <a href="#contact" class="hover:underline">Contact</a>
-      </div>
-    </div>
-  </footer>
+  <!-- Modals mount + scripts -->
+  <div id="modalContainer"></div>
+  <script src="modal.js"></script>
+  <script src="auth.js"></script>
 </body>
 </html>
