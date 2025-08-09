@@ -1,263 +1,53 @@
 <div id="modalContainer">
-  <!-- =========================
-       (EXISTING) Pricing Proposal Modal
-       ========================= -->
-  <div class="modal" id="pricingModal">
+  <!-- Universal Modal for: Services (proposal), Toolkits (add-to-cart or access), Insights (add-to-cart) -->
+  <div class="modal" id="universalModal">
     <div class="modal-content">
-      <span class="close" onclick="closeModal('pricingModal')">&times;</span>
-      <h2>Request a Pricing Proposal</h2>
-      <form action="https://formsubmit.co/info@resilientocean.com" method="POST">
-        <input type="hidden" name="_next" value="https://www.resilientocean.com/thanks.html">
-        <input type="hidden" name="_captcha" value="false">
-        <label>Email Address <span class="required">*</span></label>
-        <input type="email" name="email" required>
-        <label>Name <span class="required">*</span></label>
-        <input type="text" name="name" required>
-        <label>Institution Type <span class="required">*</span></label>
-        <select name="institution_type" required>
-          <option value="">--Select--</option>
-          <option>UN Entity</option>
-          <option>Private company</option>
-          <option>NGO</option>
-          <option>Public Institution</option>
-        </select>
-        <label>Institution Name <span class="required">*</span></label>
-        <input type="text" name="institution_name" required>
-        <label>Service of Interest <span class="required">*</span></label>
-        <select name="service" required>
-          <option>1. Biodiversity Risk Analytics</option>
-          <option>2. Tool/Methodology Development</option>
-          <option>3. ESG & Environmental Assessments</option>
-          <option>4. Investment & Carbon Advisory</option>
-          <option>5. MRV Systems for ESG & Nature KPIs</option>
-          <option>6. Site-specific Planning</option>
-        </select>
-        <button type="submit">Send</button>
+      <span class="close" onclick="closeModal('universalModal')">&times;</span>
+      <h2 id="universalTitle">Complete Your Details</h2>
+
+      <form id="universalForm">
+        <!-- Hidden context about what was clicked -->
+        <input type="hidden" name="selected_item_type" value="">
+        <input type="hidden" name="selected_item_name" value="">
+
+        <div class="grid gap-3">
+          <label>First Name <span class="required">*</span></label>
+          <input type="text" name="first_name" required>
+
+          <label>Last Name <span class="required">*</span></label>
+          <input type="text" name="last_name" required>
+
+          <label>Institution Type <span class="required">*</span></label>
+          <select name="institution_type" required>
+            <option value="">-- Select --</option>
+            <option>Insurers</option>
+            <option>Technology providers</option>
+            <option>NGOs</option>
+            <option>Research and academia</option>
+            <option>Consultants</option>
+            <option>Policymakers: local, national, regional, international</option>
+            <option>Multilateral organizations</option>
+            <option>Ocean industries: shipping, blue feeds, energy and tourism</option>
+            <option>Private Sector (other)</option>
+            <option>Investors: philanthropy, banks, venture capitalists, multilateral banks</option>
+          </select>
+
+          <label>Institution Name <span class="required">*</span></label>
+          <input type="text" name="institution_name" required>
+
+          <label>Email Address <span class="required">*</span></label>
+          <input type="email" name="email" required>
+
+          <label>Create Password <span class="required">*</span></label>
+          <input type="password" name="password" required>
+        </div>
+
+        <button type="submit">Submit</button>
       </form>
-    </div>
-  </div>
 
-  <!-- =========================
-       (EXISTING) Consultation Modal
-       ========================= -->
-  <div class="modal" id="consultModal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal('consultModal')">&times;</span>
-      <h2>Request a Consultation</h2>
-      <form action="https://formsubmit.co/info@resilientocean.com" method="POST">
-        <input type="hidden" name="_next" value="https://www.resilientocean.com/thanks.html">
-        <input type="hidden" name="_captcha" value="false">
-        <label>Email Address <span class="required">*</span></label>
-        <input type="email" name="email" required>
-        <label>Name <span class="required">*</span></label>
-        <input type="text" name="name" required>
-        <label>Institution Type <span class="required">*</span></label>
-        <select name="institution_type" required>
-          <option value="">--Select--</option>
-          <option>UN Entity</option>
-          <option>Private company</option>
-          <option>NGO</option>
-          <option>Public Institution</option>
-        </select>
-        <label>Institution Name <span class="required">*</span></label>
-        <input type="text" name="institution_name" required>
-        <label>Service of Interest <span class="required">*</span></label>
-        <select name="service" required>
-          <option>1. Biodiversity Risk Analytics</option>
-          <option>2. Tool/Methodology Development</option>
-          <option>3. ESG & Environmental Assessments</option>
-          <option>4. Investment & Carbon Advisory</option>
-          <option>5. MRV Systems for ESG & Nature KPIs</option>
-          <option>6. Site-specific Planning</option>
-        </select>
-        <button type="submit">Send</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- =========================
-       (EXISTING) Whitepaper Modal
-       ========================= -->
-  <div class="modal" id="whitepaperModal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal('whitepaperModal')">&times;</span>
-      <h2>Request Whitepaper</h2>
-      <form action="https://formsubmit.co/info@resilientocean.com" method="POST">
-        <input type="hidden" name="_next" value="https://www.resilientocean.com/thanks.html">
-        <input type="hidden" name="_captcha" value="false">
-        <label>Email Address <span class="required">*</span></label>
-        <input type="email" name="email" required>
-        <label>Name <span class="required">*</span></label>
-        <input type="text" name="name" required>
-        <label>Institution Type <span class="required">*</span></label>
-        <select name="institution_type" required>
-          <option value="">--Select--</option>
-          <option>UN Entity</option>
-          <option>Private company</option>
-          <option>NGO</option>
-          <option>Public Institution</option>
-        </select>
-        <label>Institution Name <span class="required">*</span></label>
-        <input type="text" name="institution_name" required>
-        <label>Choose Report <span class="required">*</span></label>
-        <select name="whitepaper" required>
-          <option>Integrating Nature into Risk Registers – 89.95 EUR</option>
-          <option>CSRD + ESRS E4 – 295.95 EUR</option>
-          <option>Financing Nature – 69.95 EUR</option>
-        </select>
-        <button type="submit">Add to Cart</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- =========================
-       (EXISTING) Toolkit Access Modal
-       ========================= -->
-  <div class="modal" id="toolkitModal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal('toolkitModal')">&times;</span>
-      <h2>Request Toolkit Access</h2>
-      <form id="toolkitForm" action="https://formsubmit.co/info@resilientocean.com" method="POST">
-        <input type="hidden" name="_next" value="https://www.resilientocean.com/thanks.html">
-        <input type="hidden" name="_captcha" value="false">
-
-        <label>Email Address <span class="required">*</span></label>
-        <input type="email" id="toolkitEmail" name="email" required>
-
-        <label>Create a Password <span class="required">*</span></label>
-        <input type="password" id="toolkitPassword" name="password" required>
-
-        <label>First Name <span class="required">*</span></label>
-        <input type="text" id="toolkitFirstName" name="first_name" required>
-
-        <label>Institution Name <span class="required">*</span></label>
-        <input type="text" id="toolkitInstitution" name="institution_name" required>
-
-        <label>Institution Type <span class="required">*</span></label>
-        <select id="toolkitInstitutionType" name="institution_type" required>
-          <option value="">--Select--</option>
-          <option>Insurers</option>
-          <option>Technology providers</option>
-          <option>NGOs</option>
-          <option>Research and academia</option>
-          <option>Consultants</option>
-          <option>Policymakers: local, national, regional, international</option>
-          <option>Multilateral organizations</option>
-          <option>Ocean industries: shipping, blue feeds, energy and tourism</option>
-          <option>Investors: philanthropy, banks, venture capitalists, multilateral banks</option>
-        </select>
-
-        <label>Toolkit Selection <span class="required">*</span></label>
-        <select name="toolkit" required>
-          <option>Materiality Scoping Templates – 399.00 EUR</option>
-          <option>Biodiversity Risk Dashboards – 299.00 EUR</option>
-          <option>MRV-ready Templates – 599.00 EUR (3-months)</option>
-        </select>
-
-        <label>Guidance Add-on (Optional)</label>
-        <select name="guidance">
-          <option>No add-on</option>
-          <option>Yes – Personalized Guidance (+200 EUR/hour)</option>
-        </select>
-
-        <button type="submit">Add to Cart</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- =========================
-       (EXISTING) Contact Modal
-       ========================= -->
-  <div class="modal" id="contactModal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal('contactModal')">&times;</span>
-      <h2>Contact Us</h2>
-      <form action="https://formsubmit.co/info@resilientocean.com" method="POST">
-        <input type="hidden" name="_next" value="https://www.resilientocean.com/thanks.html">
-        <input type="hidden" name="_captcha" value="false">
-        <label>Email Address <span class="required">*</span></label>
-        <input type="email" name="email" required>
-        <label>Name <span class="required">*</span></label>
-        <input type="text" name="name" required>
-        <label>Institution Type <span class="required">*</span></label>
-        <select name="institution_type" required>
-          <option value="">--Select--</option>
-          <option>UN Entity</option>
-          <option>Private company</option>
-          <option>NGO</option>
-          <option>Public Institution</option>
-        </select>
-        <label>Institution Name <span class="required">*</span></label>
-        <input type="text" name="institution_name" required>
-        <label>Your Inquiry <span class="required">*</span></label>
-        <textarea name="message" rows="5" required></textarea>
-        <button type="submit">Send</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- =========================================================
-       NEW: Unified Add / Request Modal (for all “Add to Cart” & requests)
-       Triggered via openUnifiedAddModal({type, name})
-       ========================================================= -->
-  <div class="modal" id="unifiedAddModal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal('unifiedAddModal')">&times;</span>
-      <h2 id="unifiedTitle">Complete Your Request</h2>
-
-      <div class="notice" style="margin-bottom: 0.75rem; font-size: 0.95rem; color:#4a4a4a;">
-        <strong>Selected:</strong> <span id="selectedItemLabel"></span>
-      </div>
-
-      <form id="unifiedForm" autocomplete="on">
-        <!-- Hidden: what the user is adding -->
-        <input type="hidden" id="unifiedSelectedType" name="selected_type">
-        <input type="hidden" id="unifiedSelectedName" name="selected_name">
-
-        <label>First Name <span class="required">*</span></label>
-        <input type="text" id="unifiedFirstName" name="first_name" required>
-
-        <label>Last Name <span class="required">*</span></label>
-        <input type="text" id="unifiedLastName" name="last_name" required>
-
-        <label>Institution Type <span class="required">*</span></label>
-        <select id="unifiedInstitutionType" name="institution_type" required>
-          <option value="">--Select--</option>
-          <option>Insurers</option>
-          <option>Technology providers</option>
-          <option>NGOs</option>
-          <option>Research and academia</option>
-          <option>Consultants</option>
-          <option>Policymakers: local, national, regional, international</option>
-          <option>Multilateral organizations</option>
-          <option>Ocean industries: shipping, blue feeds, energy and tourism</option>
-          <option>Investors: philanthropy, banks, venture capitalists, multilateral banks</option>
-        </select>
-
-        <label>Institution Name <span class="required">*</span></label>
-        <input type="text" id="unifiedInstitutionName" name="institution_name" required>
-
-        <label>Email Address <span class="required">*</span></label>
-        <input type="email" id="unifiedEmail" name="email" required autocomplete="email">
-
-        <label>Create a Password <span class="required">*</span></label>
-        <input type="password" id="unifiedPassword" name="password" required autocomplete="new-password">
-
-        <button type="submit" id="unifiedSubmit">Submit</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- ==================================
-       NEW: Cart Modal
-       ================================== -->
-  <div class="modal" id="cartModal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal('cartModal')">&times;</span>
-      <h2>Your Cart</h2>
-      <ul id="cartList" style="margin-top:1rem; padding-left:1rem;"></ul>
-      <div style="margin-top:1rem; font-weight:600;">Total: <span id="cartTotal">€0.00</span></div>
-      <button style="margin-top:1rem;" onclick="checkoutCart()">Proceed</button>
+      <p class="text-xs mt-3" style="color:#6b7280;">
+        By submitting, an account will be created so you can access your purchases and requests at any time.
+      </p>
     </div>
   </div>
 </div>
