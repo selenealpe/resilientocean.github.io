@@ -11,23 +11,15 @@
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
-  <!-- Optional global styles (you already have this file) -->
+  <!-- Styles -->
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="modal.css">
 
-  <!-- EmailJS (for admin + user emails) -->
+  <!-- EmailJS loader (keep your init in auth.js) -->
   <script src="https://cdn.emailjs.com/sdk/3.11.0/email.min.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      if (window.emailjs && emailjs.init) {
-        emailjs.init('YOUR_EMAILJS_PUBLIC_KEY'); // <-- Replace with your EmailJS Public Key
-      }
-    });
-  </script>
 
   <style>
     body { font-family: 'Inter', sans-serif; }
-    /* Small cart badge */
     .cart-badge {
       position: absolute; top: -6px; right: -10px;
       background: #166534; color: #fff; font-size: 11px;
@@ -54,7 +46,7 @@
           <span id="cartBadge" class="cart-badge hidden">0</span>
         </div>
 
-        <!-- My Account gets injected by auth.js if logged in -->
+        <!-- My Account injected by auth.js -->
         <span id="accountMount"></span>
       </nav>
 
@@ -64,8 +56,8 @@
     </div>
   </header>
 
-  <!-- Hero Section -->
-  <section class="bg-[url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80')] bg-cover bg-center py-24 text-center text-white">
+  <!-- Hero: fixed background image -->
+  <section class="bg-[url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80')] bg-cover bg-center bg-fixed py-24 text-center text-white">
     <div class="max-w-3xl mx-auto px-4">
       <h1 class="text-4xl md:text-5xl font-bold mb-4">Nature. Finance. Impact.</h1>
       <p class="text-lg md:text-xl mb-6">ESG & Biodiversity Solutions for a Sustainable Future</p>
@@ -85,15 +77,15 @@
     <div class="max-w-6xl mx-auto px-6">
       <h2 class="text-3xl font-bold text-green-800 mb-10 text-center">Our Advisory & Consultancy Services</h2>
 
-      <!-- Grid of services with expandable descriptions that grow the card (readable text) -->
+      <!-- Cards with readable descriptions (no hover overlay clipping) -->
       <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
         <!-- SERVICE 1 -->
         <div class="bg-white border border-gray-200 rounded-lg p-6 shadow transition">
           <h3 class="text-lg font-semibold text-green-800">Biodiversity Risk Analytics</h3>
-          <div class="mt-3 text-sm text-gray-700">
+          <p class="mt-3 text-sm text-gray-700">
             Corporate-level screening, scenario analysis, risk mapping, sectoral biodiversity impact pathways (TNFD, SBTN, GBF, IBAT, ENCORE, CSRD).
-          </div>
-          <div class="mt-4 flex gap-2">
+          </p>
+          <div class="mt-4">
             <button
               class="px-3 py-2 bg-green-700 text-white rounded text-sm"
               data-item-type="service"
@@ -108,10 +100,10 @@
         <!-- SERVICE 2 -->
         <div class="bg-white border border-gray-200 rounded-lg p-6 shadow transition">
           <h3 class="text-lg font-semibold text-green-800">Toolkits & Training</h3>
-          <div class="mt-3 text-sm text-gray-700">
+          <p class="mt-3 text-sm text-gray-700">
             Corporate Toolkits & Training on TNFD, CSRD, SBTN.
-          </div>
-          <div class="mt-4 flex gap-2">
+          </p>
+          <div class="mt-4">
             <button
               class="px-3 py-2 bg-green-700 text-white rounded text-sm"
               data-item-type="service"
@@ -126,10 +118,10 @@
         <!-- SERVICE 3 -->
         <div class="bg-white border border-gray-200 rounded-lg p-6 shadow transition">
           <h3 class="text-lg font-semibold text-green-800">Blue Economy ESG Advisory</h3>
-          <div class="mt-3 text-sm text-gray-700">
+          <p class="mt-3 text-sm text-gray-700">
             ESIA, ESMP, ESDD, ESMS development & audit (IFC PS, GCF standards, LCA, ISO 14001).
-          </div>
-          <div class="mt-4 flex gap-2">
+          </p>
+          <div class="mt-4">
             <button
               class="px-3 py-2 bg-green-700 text-white rounded text-sm"
               data-item-type="service"
@@ -144,10 +136,10 @@
         <!-- SERVICE 4 -->
         <div class="bg-white border border-gray-200 rounded-lg p-6 shadow transition">
           <h3 class="text-lg font-semibold text-green-800">MRV Systems for ESG</h3>
-          <div class="mt-3 text-sm text-gray-700">
+          <p class="mt-3 text-sm text-gray-700">
             ESG KPI setup, verification systems, remote sensing monitoring (SFDR, EU Taxonomy, CSRD).
-          </div>
-          <div class="mt-4 flex gap-2">
+          </p>
+          <div class="mt-4">
             <button
               class="px-3 py-2 bg-green-700 text-white rounded text-sm"
               data-item-type="service"
@@ -162,29 +154,31 @@
     </div>
   </section>
 
-  <!-- Toolkits (loaded) -->
+  <!-- Toolkits -->
   <div id="toolkitsContainer"></div>
 
-  <!-- Insights (loaded) -->
+  <!-- Insights -->
   <div id="insightsContainer"></div>
 
-  <!-- Contact (simple anchor target) -->
+  <!-- Contact -->
   <section id="contact" class="py-16 bg-white">
     <div class="max-w-4xl mx-auto px-6 text-center">
       <h2 class="text-2xl font-bold text-green-800 mb-4">Contact Us</h2>
       <p class="text-gray-700">Reach out for collaborations, advisory, or to schedule a briefing session.</p>
-      <p class="mt-2"><a class="text-green-800 underline" href="#" onclick="openUniversalModal(event)">info@resilientocean.com</a></p>
+      <p class="mt-2">
+        <a class="text-green-800 underline" href="#" onclick="openUniversalModal(event)">info@resilientocean.com</a>
+      </p>
     </div>
   </section>
 
-  <!-- Admin Download Section (Password protected by prompt) -->
+  <!-- Admin download (password prompt elsewhere if you still want it) -->
   <div id="adminDownload" class="text-center py-6 hidden">
     <button onclick="downloadSubmissions()" class="bg-blue-700 hover:bg-blue-800 text-white px-6 py-2 rounded text-sm font-semibold">
       Download All Submissions
     </button>
   </div>
 
-  <!-- Universal Modal Markup (injected by forms.html) -->
+  <!-- Modal containers -->
   <div id="modalContainer"></div>
 
   <!-- Footer -->
@@ -194,9 +188,9 @@
         &copy; 2025 Resilient Ocean. All rights reserved.
       </div>
       <div class="text-sm flex gap-6">
-        <a href="#" class="hover:underline">Privacy</a>
-        <a href="#" class="hover:underline">Terms</a>
-        <a href="#contact" class="hover:underline">Contact</a>
+        <a href="#" class="hover:underline" onclick="openUniversalModal(event)" data-item-type="contact" data-item-name="Contact">Contact</a>
+        <a href="#" class="hover:underline" onclick="openDoc('privacy.html','Privacy Policy')">Privacy</a>
+        <a href="#" class="hover:underline" onclick="openDoc('terms.html','Terms & Conditions')">Terms</a>
       </div>
     </div>
   </footer>
@@ -205,22 +199,11 @@
   <script src="modal.js"></script>
   <script src="auth.js"></script>
   <script>
-    // Load Toolkits & Insights partials
+    // Load Toolkits & Insights
     fetch('components/toolkits.html').then(r => r.text()).then(h => { document.getElementById('toolkitsContainer').innerHTML = h; });
     fetch('components/insights.html').then(r => r.text()).then(h => { document.getElementById('insightsContainer').innerHTML = h; });
 
-    // Admin quick access via prompt (optional)
-    function toggleAdminAccess() {
-      const pass = prompt("Enter admin password:");
-      if (pass === ":Rmuu53J4XPdB@HMN!_") {
-        document.getElementById("adminDownload").classList.remove("hidden");
-        alert("Welcome, Admin. Scroll to the bottom of the page to download submissions.");
-      } else {
-        alert("Incorrect password.");
-      }
-    }
-
-    // Export all submissions (from localStorage)
+    // Export submissions (optional)
     function downloadSubmissions() {
       let allData = {};
       for (let key in localStorage) {
@@ -237,14 +220,13 @@
       document.body.removeChild(link);
     }
 
-    // Open the universal modal with context from any button
+    // Open from any CTA (provide data-item-* on buttons/links)
     function openUniversalModal(e) {
       e.preventDefault();
       const btn = e.currentTarget;
       const itemType = btn.getAttribute('data-item-type') || 'general';
       const itemName = btn.getAttribute('data-item-name') || 'General Inquiry';
       openModal('universalModal');
-      // Fill hidden fields so we know what was clicked
       const f = document.getElementById('universalForm');
       if (f) {
         f.querySelector('input[name="selected_item_type"]').value = itemType;
