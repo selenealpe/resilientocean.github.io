@@ -1,4 +1,4 @@
-// ===== CONFIG =====
+// ===== CONFIG (EmailJS optional; keep if you already set this up) =====
 const EMAILJS_PUBLIC_KEY = 'YOUR_EMAILJS_PUBLIC_KEY';     // replace
 const EMAILJS_SERVICE_ID = 'YOUR_EMAILJS_SERVICE_ID';     // replace
 const ADMIN_TEMPLATE_ID  = 'ADMIN_TEMPLATE_ID';           // replace
@@ -7,12 +7,13 @@ const WELCOME_TEMPLATE_ID= 'WELCOME_TEMPLATE_ID';         // replace
 // Keys
 const USER_KEY = "resilientUser";              // current session user
 const USERS_KEY = "resilientUserRegistry";     // array of all users [{email,...}]
-const CART_KEY = "resilientCart";              // array of items [{type,name}]
+const CART_KEY = "resilientCart";              // [{type,name,price?}]
+const CART_TOTAL_KEY = "resilientCartTotal";
 
 // Init EmailJS if present
 (function initEmailJS(){
   if (window.emailjs && emailjs.init && EMAILJS_PUBLIC_KEY !== 'YOUR_EMAILJS_PUBLIC_KEY') {
-    emailjs.init(EMAILJS_PUBLIC_KEY);
+    try { emailjs.init(EMAILJS_PUBLIC_KEY); } catch(e){}
   }
 })();
 
@@ -20,14 +21,19 @@ const CART_KEY = "resilientCart";              // array of items [{type,name}]
 function getUsers(){ return JSON.parse(localStorage.getItem(USERS_KEY) || "[]"); }
 function saveUsers(arr){ localStorage.setItem(USERS_KEY, JSON.stringify(arr)); }
 function getSession(){ return JSON.parse(localStorage.getItem(USER_KEY) || "null"); }
-function setSession(user){ localStorage.setItem(USER_KEY, JSON.stringify(user)); }
-function clearSession(){ localStorage.removeItem(USER_KEY); }
+function setSession(user, remember=false){
+  localStorage.setItem(USER_KEY, JSON.stringify(user));
+  if (remember) localStorage.setItem('rememberMe', 'true');
+}
+function clearSession(){
+  localStorage.removeItem(USER_KEY);
+  localStorage.removeItem('rememberMe');
+}
 
 function upsertUser(u){
   const users = getUsers();
   const i = users.findIndex(x => x.email.toLowerCase() === u.email.toLowerCase());
   if (i >= 0) {
-    // merge purchases & fields
     users[i] = {
       ...users[i],
       ...u,
@@ -37,15 +43,18 @@ function upsertUser(u){
       services: mergeUnique(users[i].services || [], u.services || []),
     };
   } else {
-    users.push({ ...u, cart: u.cart || [] });
+    users.push({ ...u, cart: u.cart || [], toolkits: u.toolkits||[], insights:u.insights||[], services:u.services||[] });
   }
   saveUsers(users);
   return users.find(x => x.email.toLowerCase() === u.email.toLowerCase());
 }
 
 function mergeUnique(a,b){
-  const names = new Set((a||[]).map(i=>i.name||i));
-  (b||[]).forEach(i => { const k = (i.name||i); if (!names.has(k)) { a.push(i);} });
+  const set = new Set((a||[]).map(i=> typeof i==='string' ? i : (i.name||JSON.stringify(i))));
+  (b||[]).forEach(i => {
+    const key = (typeof i==='string' ? i : (i.name||JSON.stringify(i)));
+    if (!set.has(key)) a.push(i);
+  });
   return a;
 }
 
@@ -54,15 +63,12 @@ function getCart(){ return JSON.parse(localStorage.getItem(CART_KEY) || "[]"); }
 function saveCart(items){ localStorage.setItem(CART_KEY, JSON.stringify(items)); }
 function addToCart(item){
   const cart = getCart();
-  // avoid duplicates by name
   if(!cart.some(c => c.name === item.name && c.type === item.type)) {
     cart.push(item);
     saveCart(cart);
   }
   updateCartBadge();
 }
-
-// Small cart badge count
 function updateCartBadge(){
   const badge = document.getElementById('cartBadge');
   if (!badge) return;
@@ -76,26 +82,16 @@ function updateCartBadge(){
 }
 
 // ---- Account tab handling ----
+document.addEventListener("DOMContentLoaded", () => {
+  restoreAccountTab();
+  updateCartBadge();
+});
+
 function restoreAccountTab(){
   const mount = document.getElementById('accountMount');
   if (!mount) return;
-
-  // if already present, don't add again
-  if (document.getElementById('accountLink')) {
-    updateCartBadge();
-    return;
-  }
-
-  const session = getSession();
-  if (session && session.email) {
-    const a = document.createElement('a');
-    a.id = 'accountLink';
-    a.href = 'account.html';
-    a.className = 'hover:text-green-700 text-sm font-semibold';
-    a.textContent = 'My Account';
-    mount.appendChild(a);
-  }
-  updateCartBadge();
+  // modal.js will also manage this safely; do a light touch here
+  // We'll defer to modal.js's restoreAccountTabSafely after forms load
 }
 
 // ---- Email notifications via EmailJS ----
@@ -108,7 +104,7 @@ function emailWelcome(payload){
   return emailjs.send(EMAILJS_SERVICE_ID, WELCOME_TEMPLATE_ID, payload);
 }
 
-// ---- Handle Universal Modal Submit (create account + add cart + emails) ----
+// ---- Universal form submit is hooked in modal.js for price; do account/cart/emails here too
 document.addEventListener('submit', (e) => {
   if (e.target && e.target.id === 'universalForm') {
     e.preventDefault();
@@ -116,6 +112,7 @@ document.addEventListener('submit', (e) => {
 
     const selected_item_type = f.querySelector('input[name="selected_item_type"]').value || 'general';
     const selected_item_name = f.querySelector('input[name="selected_item_name"]').value || 'General Inquiry';
+    const selected_item_price = parseFloat(f.querySelector('input[name="selected_item_price"]').value || "0");
 
     const first_name = f.first_name.value.trim();
     const last_name  = f.last_name.value.trim();
@@ -129,26 +126,25 @@ document.addEventListener('submit', (e) => {
       return;
     }
 
-    // Build or merge the user
-    const itemObj = { type: selected_item_type, name: selected_item_name };
-    addToCart(itemObj);
+    // Add item to cart
+    addToCart({ type: selected_item_type, name: selected_item_name, price: selected_item_price });
 
+    // Build user and upsert
     const baseUser = {
       first_name, last_name, email, password,
       institution_type, institution_name,
       toolkits: [], insights: [], services: [], cart: getCart()
     };
-
-    // Place the item into the correct bucket
     if (selected_item_type === 'toolkit') baseUser.toolkits = [selected_item_name];
     if (selected_item_type === 'insight') baseUser.insights = [selected_item_name];
     if (selected_item_type === 'service') baseUser.services = [selected_item_name];
 
     const user = upsertUser(baseUser);
-    setSession(user);
-    restoreAccountTab();
+    setSession(user, true); // remember by default after signup
+    // Update auth nav (modal.js has a function to rebuild it)
+    if (typeof restoreAccountTabSafely === 'function') restoreAccountTabSafely();
 
-    // Send emails (admin + user)
+    // Emails
     const payload = {
       name: `${first_name} ${last_name}`,
       email,
@@ -156,18 +152,28 @@ document.addEventListener('submit', (e) => {
       institution_type,
       selected_item: selected_item_name
     };
-
     emailAdmin(payload).catch(()=>{});
-    emailWelcome({
-      to_email: email,
-      to_name: first_name,
-      selected_item: selected_item_name
-    }).catch(()=>{});
+    emailWelcome({ to_email: email, to_name: first_name, selected_item: selected_item_name }).catch(()=>{});
 
     closeModal('universalModal');
-    alert("You're all set! We've created your account and added the item to your cart. You’ll receive a confirmation email shortly.");
+    alert("You're all set! We've created your account and added the item to your cart. You can access your account anytime.");
   }
 });
 
-// Keep cart badge fresh on load
-document.addEventListener('DOMContentLoaded', updateCartBadge);
+// ---- Login & Logout ----
+function loginFromLoginPage(email, password, rememberMe) {
+  const registry = getUsers();
+  const user = registry.find(u => u.email.toLowerCase() === email.toLowerCase() && u.password === password);
+  if (user) {
+    setSession(user, !!rememberMe);
+    if (typeof restoreAccountTabSafely === 'function') restoreAccountTabSafely();
+    window.location.href = "account.html";
+  } else {
+    alert("Invalid credentials.");
+  }
+}
+function logout(){
+  clearSession();
+  if (typeof restoreAccountTabSafely === 'function') restoreAccountTabSafely();
+  window.location.href = "index.html";
+}
