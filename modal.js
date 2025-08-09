@@ -2,7 +2,7 @@
 // modal.js
 // =======================
 
-// Correct prices (EUR) — these must match data-item-name strings exactly
+// Correct prices (EUR) — must match data-item-name strings exactly
 const PRICE_MAP = {
   // Insights
   "Integrating Nature into Risk Registers – 189.95 EUR": 189.95,
@@ -25,6 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("modalContainer").innerHTML = html;
       restoreAccountTabSafely();
       attachUniversalFormHandler();
+      attachLoginFormHandler();
     })
     .catch(err => console.error("Failed to load forms:", err));
 });
@@ -37,7 +38,6 @@ function openModal(id) {
   document.body.style.overflow = "hidden";
 
   if (id === "universalModal") {
-    // Ensure price gets set after index sets item fields
     setTimeout(setPriceFromSelectedItem, 0);
   }
 }
@@ -57,16 +57,42 @@ window.addEventListener('click', (e) => {
 function restoreAccountTabSafely() {
   const mount = document.getElementById('accountMount');
   if (!mount) return;
-  if (document.getElementById('accountLink')) return;
+  // Clear existing auth links first (avoid duplicates)
+  mount.innerHTML = "";
+
   try {
     const session = JSON.parse(localStorage.getItem('resilientUser') || 'null');
     if (session && session.email) {
-      const a = document.createElement('a');
-      a.id = 'accountLink';
-      a.href = 'account.html';
-      a.className = 'hover:text-green-700 text-sm font-semibold';
-      a.textContent = 'My Account';
-      mount.appendChild(a);
+      // Logged in: show My Account + Logout
+      const acct = document.createElement('a');
+      acct.id = 'accountLink';
+      acct.href = 'account.html';
+      acct.className = 'hover:text-green-700 text-sm font-semibold';
+      acct.textContent = 'My Account';
+
+      const sep = document.createElement('span');
+      sep.textContent = '•';
+      sep.className = 'text-gray-400';
+
+      const out = document.createElement('a');
+      out.href = '#';
+      out.className = 'hover:text-green-700 text-sm font-semibold';
+      out.textContent = 'Log out';
+      out.onclick = (e) => { e.preventDefault(); logoutUser(); };
+
+      mount.appendChild(acct);
+      mount.appendChild(document.createTextNode(' '));
+      mount.appendChild(sep);
+      mount.appendChild(document.createTextNode(' '));
+      mount.appendChild(out);
+    } else {
+      // Logged out: show Login
+      const login = document.createElement('a');
+      login.href = '#';
+      login.className = 'hover:text-green-700 text-sm font-semibold';
+      login.textContent = 'Log in';
+      login.onclick = (e) => { e.preventDefault(); openModal('loginModal'); };
+      mount.appendChild(login);
     }
   } catch(e){}
 }
@@ -93,7 +119,7 @@ function updateCartTotalWithNewItem(priceStr) {
   localStorage.setItem(CART_TOTAL_KEY, String(total));
 }
 
-// Handle universal form submit (price total prep; auth.js handles account/cart/emails)
+// Handle universal form (price total prep; auth.js handles account/cart/emails)
 function attachUniversalFormHandler() {
   const f = document.getElementById('universalForm');
   if (!f) return;
@@ -106,13 +132,35 @@ function attachUniversalFormHandler() {
   });
 }
 
-// Open Privacy/Terms in big modal
+// Login form handler (calls into auth.js)
+function attachLoginFormHandler() {
+  const f = document.getElementById('loginForm');
+  if (!f) return;
+  f.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = f.login_email.value.trim().toLowerCase();
+    const pass  = f.login_password.value;
+    const remember = !!f.remember_me.checked;
+    if (!email || !pass) return;
+    if (typeof loginFromLoginPage === 'function') {
+      loginFromLoginPage(email, pass, remember);
+      closeModal('loginModal');
+      restoreAccountTabSafely();
+    }
+  });
+}
+
+// Open Privacy/Terms in big modal — extract <main> content so it displays cleanly
 function openDoc(path, title='Document') {
   fetch(path)
     .then(r => r.text())
     .then(html => {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, 'text/html');
+      const main = doc.querySelector('main');
+      const content = main ? main.innerHTML : html; // fallback: whole doc
       document.getElementById('docTitle').textContent = title;
-      document.getElementById('docBody').innerHTML = html;
+      document.getElementById('docBody').innerHTML = content;
       openModal('docModal');
     })
     .catch(() => {
@@ -120,4 +168,13 @@ function openDoc(path, title='Document') {
       document.getElementById('docBody').innerHTML = "<p>Sorry, this document could not be loaded right now.</p>";
       openModal('docModal');
     });
+}
+
+// Simple logout that clears session & updates nav
+function logoutUser() {
+  localStorage.removeItem('resilientUser');
+  localStorage.removeItem('rememberMe');
+  restoreAccountTabSafely();
+  // Optional: redirect to home
+  window.location.href = 'index.html';
 }
