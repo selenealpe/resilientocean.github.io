@@ -10,8 +10,8 @@ const PRICE_MAP = {
   "Financing Nature – 169.95 EUR": 169.95,
 
   // Toolkits
-  "Materiality Scoping Templates – 399.00 EUR": 399.00,                     // (2 months)
-  "Biodiversity Risk Dashboards – 249.00 EUR": 249.00,                      // (3 months)
+  "Materiality Scoping Templates – 399.00 EUR": 399.00,
+  "Biodiversity Risk Dashboards – 249.00 EUR": 249.00,
   "MRV-ready Templates – 599.00 EUR (3-months)": 599.00
 };
 
@@ -26,6 +26,8 @@ document.addEventListener("DOMContentLoaded", () => {
       restoreAccountTabSafely();
       attachUniversalFormHandler();
       attachLoginFormHandler();
+      attachSignupFormHandler();
+      attachForgotPasswordHandler();
     })
     .catch(err => console.error("Failed to load forms:", err));
 });
@@ -57,13 +59,11 @@ window.addEventListener('click', (e) => {
 function restoreAccountTabSafely() {
   const mount = document.getElementById('accountMount');
   if (!mount) return;
-  // Clear existing auth links first (avoid duplicates)
   mount.innerHTML = "";
 
   try {
     const session = JSON.parse(localStorage.getItem('resilientUser') || 'null');
     if (session && session.email) {
-      // Logged in: show My Account + Logout
       const acct = document.createElement('a');
       acct.id = 'accountLink';
       acct.href = 'account.html';
@@ -78,7 +78,7 @@ function restoreAccountTabSafely() {
       out.href = '#';
       out.className = 'hover:text-green-700 text-sm font-semibold';
       out.textContent = 'Log out';
-      out.onclick = (e) => { e.preventDefault(); logoutUser(); };
+      out.onclick = (e) => { e.preventDefault(); if (typeof logout === 'function') { logout(); } };
 
       mount.appendChild(acct);
       mount.appendChild(document.createTextNode(' '));
@@ -86,7 +86,6 @@ function restoreAccountTabSafely() {
       mount.appendChild(document.createTextNode(' '));
       mount.appendChild(out);
     } else {
-      // Logged out: show Login
       const login = document.createElement('a');
       login.href = '#';
       login.className = 'hover:text-green-700 text-sm font-semibold';
@@ -109,7 +108,7 @@ function setPriceFromSelectedItem() {
   priceInput.value = isNaN(price) ? "0" : String(price);
 }
 
-// Maintain total
+// Maintain total (optional visual)
 function updateCartTotalWithNewItem(priceStr) {
   const price = Number(priceStr || 0);
   if (isNaN(price)) return;
@@ -119,7 +118,7 @@ function updateCartTotalWithNewItem(priceStr) {
   localStorage.setItem(CART_TOTAL_KEY, String(total));
 }
 
-// Handle universal form (price total prep; auth.js handles account/cart/emails)
+// Universal form handler (price total prep; auth.js handles account/cart/emails)
 function attachUniversalFormHandler() {
   const f = document.getElementById('universalForm');
   if (!f) return;
@@ -150,6 +149,58 @@ function attachLoginFormHandler() {
   });
 }
 
+// Open signup modal from login link
+function openSignupModal() {
+  closeModal('loginModal');
+  openModal('signupModal');
+}
+
+// Signup form handler (calls into auth.js)
+function attachSignupFormHandler() {
+  const f = document.getElementById('signupForm');
+  if (!f) return;
+  f.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (typeof signupFromSignupModal === 'function') {
+      const data = {
+        first_name: f.first_name.value.trim(),
+        last_name:  f.last_name.value.trim(),
+        institution_type: f.institution_type.value,
+        institution_name: f.institution_name.value.trim(),
+        email: f.email.value.trim().toLowerCase(),
+        password: f.password.value
+      };
+      signupFromSignupModal(data);
+      closeModal('signupModal');
+      restoreAccountTabSafely();
+    }
+  });
+}
+
+// Forgot password: open modal
+function openForgotPasswordModal(){
+  closeModal('loginModal');
+  openModal('forgotPasswordModal');
+}
+
+// Forgot password handler (calls into auth.js)
+function attachForgotPasswordHandler() {
+  const f = document.getElementById('forgotPasswordForm');
+  if (!f) return;
+  f.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = f.forgot_email.value.trim().toLowerCase();
+    if (!email) return;
+    if (typeof requestPasswordReset === 'function') {
+      requestPasswordReset(email).finally(() => {
+        closeModal('forgotPasswordModal');
+      });
+    } else {
+      closeModal('forgotPasswordModal');
+    }
+  });
+}
+
 // Open Privacy/Terms in big modal — extract <main> content so it displays cleanly
 function openDoc(path, title='Document') {
   fetch(path)
@@ -158,7 +209,7 @@ function openDoc(path, title='Document') {
       const parser = new DOMParser();
       const doc = parser.parseFromString(html, 'text/html');
       const main = doc.querySelector('main');
-      const content = main ? main.innerHTML : html; // fallback: whole doc
+      const content = main ? main.innerHTML : html;
       document.getElementById('docTitle').textContent = title;
       document.getElementById('docBody').innerHTML = content;
       openModal('docModal');
@@ -168,13 +219,4 @@ function openDoc(path, title='Document') {
       document.getElementById('docBody').innerHTML = "<p>Sorry, this document could not be loaded right now.</p>";
       openModal('docModal');
     });
-}
-
-// Simple logout that clears session & updates nav
-function logoutUser() {
-  localStorage.removeItem('resilientUser');
-  localStorage.removeItem('rememberMe');
-  restoreAccountTabSafely();
-  // Optional: redirect to home
-  window.location.href = 'index.html';
 }
