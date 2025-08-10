@@ -1,14 +1,16 @@
-// ===== CONFIG (EmailJS optional; keep if you already set this up) =====
-const EMAILJS_PUBLIC_KEY = 'YOUR_EMAILJS_PUBLIC_KEY';     // replace
-const EMAILJS_SERVICE_ID = 'YOUR_EMAILJS_SERVICE_ID';     // replace
-const ADMIN_TEMPLATE_ID  = 'ADMIN_TEMPLATE_ID';           // replace
-const WELCOME_TEMPLATE_ID= 'WELCOME_TEMPLATE_ID';         // replace
+// ===== CONFIG (EmailJS optional; replace with your real IDs to enable emails) =====
+const EMAILJS_PUBLIC_KEY = 'YOUR_EMAILJS_PUBLIC_KEY';
+const EMAILJS_SERVICE_ID = 'YOUR_EMAILJS_SERVICE_ID';
+const ADMIN_TEMPLATE_ID  = 'ADMIN_TEMPLATE_ID';
+const WELCOME_TEMPLATE_ID= 'WELCOME_TEMPLATE_ID';
+const RESET_TEMPLATE_ID  = 'RESET_TEMPLATE_ID'; // <-- add a simple template that emails the user
 
 // Keys
 const USER_KEY = "resilientUser";              // current session user
 const USERS_KEY = "resilientUserRegistry";     // array of all users [{email,...}]
 const CART_KEY = "resilientCart";              // [{type,name,price?}]
 const CART_TOTAL_KEY = "resilientCartTotal";
+const RESET_REQS_KEY = "resilientPasswordResetRequests"; // [{email, ts}]
 
 // Init EmailJS if present
 (function initEmailJS(){
@@ -50,11 +52,9 @@ function upsertUser(u){
 }
 
 function mergeUnique(a,b){
-  const set = new Set((a||[]).map(i=> typeof i==='string' ? i : (i.name||JSON.stringify(i))));
-  (b||[]).forEach(i => {
-    const key = (typeof i==='string' ? i : (i.name||JSON.stringify(i)));
-    if (!set.has(key)) a.push(i);
-  });
+  const keyOf = (i) => (typeof i==='string' ? i : (i && (i.name || JSON.stringify(i))));
+  const set = new Set((a||[]).map(keyOf));
+  (b||[]).forEach(i => { const k = keyOf(i); if (!set.has(k)) a.push(i); });
   return a;
 }
 
@@ -81,30 +81,21 @@ function updateCartBadge(){
   }
 }
 
-// ---- Account tab handling ----
-document.addEventListener("DOMContentLoaded", () => {
-  restoreAccountTab();
-  updateCartBadge();
-});
-
-function restoreAccountTab(){
-  const mount = document.getElementById('accountMount');
-  if (!mount) return;
-  // modal.js will also manage this safely; do a light touch here
-  // We'll defer to modal.js's restoreAccountTabSafely after forms load
-}
-
-// ---- Email notifications via EmailJS ----
+// ---- Email helpers ----
 function emailAdmin(payload){
-  if (!window.emailjs) return Promise.resolve();
+  if (!window.emailjs || EMAILJS_SERVICE_ID==='YOUR_EMAILJS_SERVICE_ID') return Promise.resolve();
   return emailjs.send(EMAILJS_SERVICE_ID, ADMIN_TEMPLATE_ID, payload);
 }
 function emailWelcome(payload){
-  if (!window.emailjs) return Promise.resolve();
+  if (!window.emailjs || EMAILJS_SERVICE_ID==='YOUR_EMAILJS_SERVICE_ID') return Promise.resolve();
   return emailjs.send(EMAILJS_SERVICE_ID, WELCOME_TEMPLATE_ID, payload);
 }
+function emailPasswordReset(payload){
+  if (!window.emailjs || EMAILJS_SERVICE_ID==='YOUR_EMAILJS_SERVICE_ID') return Promise.resolve();
+  return emailjs.send(EMAILJS_SERVICE_ID, RESET_TEMPLATE_ID, payload);
+}
 
-// ---- Universal form submit is hooked in modal.js for price; do account/cart/emails here too
+// ---- Universal form submit (account create + cart + emails)
 document.addEventListener('submit', (e) => {
   if (e.target && e.target.id === 'universalForm') {
     e.preventDefault();
@@ -140,9 +131,7 @@ document.addEventListener('submit', (e) => {
     if (selected_item_type === 'service') baseUser.services = [selected_item_name];
 
     const user = upsertUser(baseUser);
-    setSession(user, true); // remember by default after signup
-    // Update auth nav (modal.js has a function to rebuild it)
-    if (typeof restoreAccountTabSafely === 'function') restoreAccountTabSafely();
+    setSession(user, true); // remember after signup
 
     // Emails
     const payload = {
@@ -155,8 +144,8 @@ document.addEventListener('submit', (e) => {
     emailAdmin(payload).catch(()=>{});
     emailWelcome({ to_email: email, to_name: first_name, selected_item: selected_item_name }).catch(()=>{});
 
-    closeModal('universalModal');
-    alert("You're all set! We've created your account and added the item to your cart. You can access your account anytime.");
+    alert("You're all set! We've created your account and added the item to your cart.");
+    window.location.href = "account.html";
   }
 });
 
@@ -166,7 +155,6 @@ function loginFromLoginPage(email, password, rememberMe) {
   const user = registry.find(u => u.email.toLowerCase() === email.toLowerCase() && u.password === password);
   if (user) {
     setSession(user, !!rememberMe);
-    if (typeof restoreAccountTabSafely === 'function') restoreAccountTabSafely();
     window.location.href = "account.html";
   } else {
     alert("Invalid credentials.");
@@ -174,6 +162,75 @@ function loginFromLoginPage(email, password, rememberMe) {
 }
 function logout(){
   clearSession();
-  if (typeof restoreAccountTabSafely === 'function') restoreAccountTabSafely();
   window.location.href = "index.html";
+}
+
+// ---- Signup from the dedicated Signup modal ----
+function signupFromSignupModal(data){
+  const { first_name, last_name, institution_type, institution_name, email, password } = data;
+  if (!first_name || !last_name || !institution_type || !institution_name || !email || !password) {
+    alert("Please complete all required fields.");
+    return;
+  }
+
+  const baseUser = {
+    first_name, last_name, email, password,
+    institution_type, institution_name,
+    toolkits: [], insights: [], services: [], cart: getCart()
+  };
+
+  const user = upsertUser(baseUser);
+  setSession(user, true);
+
+  // Welcome + Admin emails (no selected item when pure signup)
+  const payload = {
+    name: `${first_name} ${last_name}`,
+    email,
+    institution: institution_name,
+    institution_type,
+    selected_item: 'Account Signup'
+  };
+  emailAdmin(payload).catch(()=>{});
+  emailWelcome({ to_email: email, to_name: first_name, selected_item: 'Account Signup' }).catch(()=>{});
+
+  alert("Welcome! Your account has been created.");
+  window.location.href = "account.html";
+}
+
+// ---- Forgot Password (static-site friendly request) ----
+function requestPasswordReset(email){
+  return new Promise((resolve) => {
+    const users = getUsers();
+    const user = users.find(u => u.email.toLowerCase() === email.toLowerCase());
+    const requests = JSON.parse(localStorage.getItem(RESET_REQS_KEY) || "[]");
+
+    // Save request locally for your records
+    requests.push({ email, ts: Date.now() });
+    localStorage.setItem(RESET_REQS_KEY, JSON.stringify(requests));
+
+    if (!user) {
+      alert("If this email is registered, you will receive instructions shortly.");
+      // Still notify admin so you can assist manually
+      emailAdmin({ name: 'Unknown', email, institution: '-', institution_type: '-', selected_item: 'Password Reset Request (no match)' }).finally(resolve);
+      return;
+    }
+
+    // Email admin
+    emailAdmin({
+      name: `${user.first_name || ''} ${user.last_name || ''}`.trim() || 'User',
+      email,
+      institution: user.institution_name || '-',
+      institution_type: user.institution_type || '-',
+      selected_item: 'Password Reset Request'
+    }).catch(()=>{});
+
+    // Email user (template can say: "We received your request. Our team will help you reset your password.")
+    emailPasswordReset({
+      to_email: email,
+      to_name: user.first_name || 'there'
+    }).catch(()=>{});
+
+    alert("If this email is registered, you will receive reset instructions shortly.");
+    resolve();
+  });
 }
