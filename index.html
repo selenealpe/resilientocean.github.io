@@ -15,9 +15,6 @@
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="modal.css">
 
-  <!-- EmailJS loader (keep your init in auth.js) -->
-  <script src="https://cdn.emailjs.com/sdk/3.11.0/email.min.js"></script>
-
   <style>
     body { font-family: 'Inter', sans-serif; }
     .cart-badge {
@@ -29,8 +26,9 @@
   </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
-  <!-- Header & Nav -->
-  <header class="bg-white shadow sticky top-0 z-50">
+
+  <!-- Header (NOT sticky/fixed) -->
+  <header class="bg-white shadow">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
       <div class="text-2xl font-bold text-green-800">Resilient Ocean</div>
 
@@ -46,18 +44,23 @@
           <span id="cartBadge" class="cart-badge hidden">0</span>
         </div>
 
-        <!-- My Account injected by auth.js -->
+        <!-- Dynamic auth mount (Login / My Account + Logout) -->
         <span id="accountMount"></span>
       </nav>
 
+      <!-- Mobile quick CTA -->
       <div class="md:hidden">
-        <a href="#" class="text-sm font-semibold text-green-800 underline" onclick="openUniversalModal(event)">Get a Pricing Proposal</a>
+        <a href="#" class="text-sm font-semibold text-green-800 underline"
+           onclick="openUniversalModal(event)">Get a Pricing Proposal</a>
       </div>
     </div>
   </header>
 
-  <!-- Hero: fixed background image -->
-  <section class="bg-[url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80')] bg-cover bg-center bg-fixed py-24 text-center text-white">
+  <!-- Hero (single, non-fixed background image) -->
+  <section
+    class="bg-cover bg-center py-20 md:py-24 text-center text-white"
+    style="background-image:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80');"
+  >
     <div class="max-w-3xl mx-auto px-4">
       <h1 class="text-4xl md:text-5xl font-bold mb-4">Nature. Finance. Impact.</h1>
       <p class="text-lg md:text-xl mb-6">ESG & Biodiversity Solutions for a Sustainable Future</p>
@@ -69,15 +72,20 @@
       >
         Get a Pricing Proposal
       </button>
+      <button
+        class="ml-3 bg-white/90 hover:bg-white text-green-800 px-5 py-3 rounded-lg text-sm font-semibold"
+        onclick="openLoginModal(event)"
+      >
+        Log in
+      </button>
     </div>
   </section>
 
-  <!-- Our Advisory & Consultancy Services -->
+  <!-- CONTENT SECTIONS (scroll normally) -->
   <section id="services" class="py-20 bg-gray-50">
     <div class="max-w-6xl mx-auto px-6">
       <h2 class="text-3xl font-bold text-green-800 mb-10 text-center">Our Advisory & Consultancy Services</h2>
 
-      <!-- Cards with readable descriptions (no hover overlay clipping) -->
       <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
         <!-- SERVICE 1 -->
         <div class="bg-white border border-gray-200 rounded-lg p-6 shadow transition">
@@ -171,16 +179,6 @@
     </div>
   </section>
 
-  <!-- Admin download (password prompt elsewhere if you still want it) -->
-  <div id="adminDownload" class="text-center py-6 hidden">
-    <button onclick="downloadSubmissions()" class="bg-blue-700 hover:bg-blue-800 text-white px-6 py-2 rounded text-sm font-semibold">
-      Download All Submissions
-    </button>
-  </div>
-
-  <!-- Modal containers -->
-  <div id="modalContainer"></div>
-
   <!-- Footer -->
   <footer class="bg-green-900 text-white py-10 mt-20">
     <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
@@ -195,32 +193,18 @@
     </div>
   </footer>
 
+  <!-- Modal containers -->
+  <div id="modalContainer"></div>
+
   <!-- Scripts -->
   <script src="modal.js"></script>
   <script src="auth.js"></script>
   <script>
-    // Load Toolkits & Insights
+    // Load Toolkits & Insights fragments
     fetch('components/toolkits.html').then(r => r.text()).then(h => { document.getElementById('toolkitsContainer').innerHTML = h; });
     fetch('components/insights.html').then(r => r.text()).then(h => { document.getElementById('insightsContainer').innerHTML = h; });
 
-    // Export submissions (optional)
-    function downloadSubmissions() {
-      let allData = {};
-      for (let key in localStorage) {
-        if (key.endsWith('_submissions')) {
-          try { allData[key] = JSON.parse(localStorage.getItem(key)); } catch(e) {}
-        }
-      }
-      const blob = new Blob([JSON.stringify(allData, null, 2)], { type: 'application/json' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = 'resilient-ocean-submissions.json';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-
-    // Open from any CTA (provide data-item-* on buttons/links)
+    // CTA → open universal modal and pass context
     function openUniversalModal(e) {
       e.preventDefault();
       const btn = e.currentTarget;
@@ -232,6 +216,12 @@
         f.querySelector('input[name="selected_item_type"]').value = itemType;
         f.querySelector('input[name="selected_item_name"]').value = itemName;
       }
+    }
+
+    // Open Login modal
+    function openLoginModal(e){
+      e && e.preventDefault();
+      openModal('loginModal');
     }
   </script>
 </body>
