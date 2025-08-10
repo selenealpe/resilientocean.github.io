@@ -1,5 +1,5 @@
 <div id="modalContainer">
-  <!-- Universal Modal -->
+  <!-- Universal Modal (request/proposal/add-to-cart/account create) -->
   <div class="modal" id="universalModal" aria-hidden="true">
     <div class="modal-content">
       <span class="close" onclick="closeModal('universalModal')">&times;</span>
@@ -48,13 +48,102 @@
     </div>
   </div>
 
+  <!-- Login Modal -->
+  <div class="modal" id="loginModal" aria-hidden="true">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('loginModal')">&times;</span>
+      <h2>Log in to Your Account</h2>
+
+      <form id="loginForm">
+        <label>Email Address <span class="required">*</span></label>
+        <input type="email" name="login_email" required>
+
+        <label>Password <span class="required">*</span></label>
+        <input type="password" name="login_password" required>
+
+        <label style="display:flex;align-items:center;gap:8px;margin-top:.25rem;">
+          <input type="checkbox" name="remember_me">
+          <span>Remember me on this device</span>
+        </label>
+
+        <button type="submit">Enter</button>
+      </form>
+
+      <p class="hint" style="margin-top:10px;">
+        <a href="#" onclick="openForgotPasswordModal(); return false;">Forgot password?</a>
+      </p>
+
+      <p class="hint" style="margin-top:6px;">
+        Not registered yet?
+        <a href="#" onclick="openSignupModal(); return false;">Create a new account</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- Signup Modal -->
+  <div class="modal" id="signupModal" aria-hidden="true">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('signupModal')">&times;</span>
+      <h2>Create Your Account</h2>
+
+      <form id="signupForm">
+        <label>First Name <span class="required">*</span></label>
+        <input type="text" name="first_name" required>
+
+        <label>Last Name <span class="required">*</span></label>
+        <input type="text" name="last_name" required>
+
+        <label>Institution Type <span class="required">*</span></label>
+        <select name="institution_type" required>
+          <option value="">-- Select --</option>
+          <option>Insurers</option>
+          <option>Technology providers</option>
+          <option>NGOs</option>
+          <option>Research and academia</option>
+          <option>Consultants</option>
+          <option>Policymakers: local, national, regional, international</option>
+          <option>Multilateral organizations</option>
+          <option>Ocean industries: shipping, blue feeds, energy and tourism</option>
+          <option>Private Sector (other)</option>
+          <option>Investors: philanthropy, banks, venture capitalists, multilateral banks</option>
+        </select>
+
+        <label>Institution Name <span class="required">*</span></label>
+        <input type="text" name="institution_name" required>
+
+        <label>Email Address <span class="required">*</span></label>
+        <input type="email" name="email" required>
+
+        <label>Create Password <span class="required">*</span></label>
+        <input type="password" name="password" required>
+
+        <button type="submit">Create Account</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Forgot Password Modal -->
+  <div class="modal" id="forgotPasswordModal" aria-hidden="true">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('forgotPasswordModal')">&times;</span>
+      <h2>Forgot your password?</h2>
+      <p class="hint">Enter the email you used for your Resilient Ocean account. We’ll email you instructions.</p>
+
+      <form id="forgotPasswordForm">
+        <label>Email Address <span class="required">*</span></label>
+        <input type="email" name="forgot_email" required>
+        <button type="submit">Send reset instructions</button>
+      </form>
+    </div>
+  </div>
+
   <!-- Large Document Modal (Privacy / Terms) -->
   <div class="modal" id="docModal" aria-hidden="true">
     <div class="modal-content modal-lg">
       <span class="close" onclick="closeModal('docModal')">&times;</span>
       <h2 id="docTitle">Document</h2>
       <div id="docBody" class="doc-body">
-        <!-- Injected from privacy.html / terms.html -->
+        <!-- Injected cleanly from privacy.html / terms.html main content -->
       </div>
     </div>
   </div>
